@@ -1,7 +1,8 @@
 # Name should reflect when action occurs
 name: Testing Cut Release
 
-on:  workflow_dispatch
+# Workflow runs when manually triggered using the UI or API
+on: workflow_dispatch
  
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -11,5 +12,5 @@ jobs:
     steps: 
     - uses: actions/checkout@v2
       
-    - name: Cut Release Branch
-      # TODO: this still needs to be don
+    - name: "TBD: Cut Release Branch"
+      # TODO: this still needs to be done
