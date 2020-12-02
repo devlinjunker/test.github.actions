@@ -13,4 +13,4 @@ jobs:
     - uses: actions/checkout@v2
       
     - name: "TBD: Cut Release Branch"
-      # TODO: this still needs to be done
+      run: "echo 'TODO: this still needs to be done'"
