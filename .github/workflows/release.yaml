@@ -8,8 +8,8 @@ jobs:
   cut-release:
     runs-on: ubuntu-latest
 
+    steps: 
     - uses: actions/checkout@v2
-
-    steps:
+      
     - name: Cut Release Branch
       # TODO: this still needs to be don
