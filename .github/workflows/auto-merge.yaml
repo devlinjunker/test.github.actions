@@ -16,6 +16,7 @@ jobs:
       run: "echo 'TODO: this still needs to be done'"
 
 # "Verify Merge Changelog" action that PR title matches regexp?: https://github.com/MorrisonCole/pr-lint-action
+# https://github.com/palantir/bulldozer
 # Use PR title + PR # in merge commit
 # squash merge?
 # 1 approval from contributor?
