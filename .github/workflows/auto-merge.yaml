@@ -15,4 +15,8 @@ jobs:
     - name: "TBD: Merge Branch with Bulldozer?"
       run: "echo 'TODO: this still needs to be done'"
 
-# Verify PR title matches regexp?: https://github.com/MorrisonCole/pr-lint-action
+# "Verify Merge Changelog" action that PR title matches regexp?: https://github.com/MorrisonCole/pr-lint-action
+# Use PR title + PR # in merge commit
+# squash merge?
+# 1 approval from contributor?
+# all checks pass
