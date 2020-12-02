@@ -3,3 +3,4 @@ Repository containing files to test Github Actions and add/edit `.yaml` files fo
 
 ## TODO:
  - [ ] Release Cutting
+ - [ ] Auto Merge PR on Comment
