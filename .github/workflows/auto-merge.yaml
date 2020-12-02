@@ -1,0 +1,16 @@
+# Name should reflect when action occurs
+name: Merge On Comment
+
+# Workflow runs when manually triggered using the UI or API
+on:
+  issue_comment:
+    types: [created]
+ 
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  cut-release:
+    runs-on: ubuntu-latest
+
+    steps: 
+    - name: "TBD: Merge Branch with Bulldozer?"
+      run: "echo 'TODO: this still needs to be done'"

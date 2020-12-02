@@ -14,3 +14,7 @@ jobs:
       
     - name: "TBD: Cut Release Branch"
       run: "echo 'TODO: this still needs to be done'"
+        # Create Changelog from commmit messages (conventional commit)
+        # Create Release Branch
+        # Create Git Tag for each Release Branch Commit
+        # Create Github Release too with API
