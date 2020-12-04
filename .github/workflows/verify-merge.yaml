@@ -18,7 +18,7 @@ jobs:
     - name: "TBD: Verify that PR title matches regexp?"
       run: "echo $BRANCH_NAME"
       env:
-        BRANCH_NAME: ${{ steps.extract_branch.outputs.branch }}
+        BRANCH_NAME: ${{ github.head_ref }}
 
       # get branch name
       # get prefix from branch name
