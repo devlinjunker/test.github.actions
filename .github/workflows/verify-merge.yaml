@@ -10,15 +10,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps: 
-    - name: Extract branch name
-      shell: bash
-      run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-      id: extract_branch
 
+    - name: "Get Prefix"
+      run: echo "##[set-output name=prefix;] $(echo $BRANCH_NAME | sed "s/\/.*//")"
+      
     - name: "TBD: Verify that PR title matches regexp?"
-      run: "echo $BRANCH_NAME"
+      run: echo $BRANCH_PREFIX
       env:
-        BRANCH_NAME: ${{ github.head_ref }}
+        BRANCH_PREFIX: ${{ steps.extract_branch.outputs.prefix }}
 
       # get branch name
       # get prefix from branch name
