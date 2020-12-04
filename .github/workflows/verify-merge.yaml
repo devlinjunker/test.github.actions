@@ -23,4 +23,4 @@ jobs:
         BRANCH_PREFIX: ${{ steps.extract_branch.outputs.prefix }}
 
     - name: "Verify PR Title Matches"
-      run: "TBD: error if title does not match: `^<prefix>(optional scope): (\w\s)*"
+      run: "TBD: error if title does not match: `^<prefix>(optional scope): (1+ word description)*"
