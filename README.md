@@ -3,6 +3,7 @@ Repository containing files to test Github Actions and add/edit `.yaml` files fo
 
 ## TODO:
  - [..] Verify Merge Possible
-    - PR Title matches branch name
- - [ ] Release Cutting
+    - [x] PR Title matches branch name
+    - [ ] PR Branch matches regexp?
  - [ ] Auto Merge PR on Comment
+ - [ ] Release Cutting
