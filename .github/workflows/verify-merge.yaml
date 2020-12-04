@@ -13,8 +13,9 @@ jobs:
 
     - name: "Get Prefix"
       run: echo "##[set-output name=prefix;] $(echo $BRANCH_NAME | sed 's/\/.*//')"
+      id: extract_branch
       env:
--       BRANCH_NAME: ${{ github.head_ref }}
+        BRANCH_NAME: ${{ github.head_ref }}
       
     - name: "TBD: Verify that PR title matches regexp?"
       run: echo $BRANCH_PREFIX
