@@ -24,12 +24,12 @@ jobs:
     - name: "TBD: error if title does not match: '^<prefix>(optional scope): (1+ word description)*'"
       run: |
         echo $BRANCH_PREFIX;
-        echo '^${{ steps.extract_branch.outputs.prefix }}\([\w\s]*\)*\)?:[\w\s]*';
+        echo '^${{ steps.extract_branch.outputs.prefix }}(\([\w\s]*\)*\))?:[\w\s]*';
       env:
         BRANCH_PREFIX: ${{ steps.extract_branch.outputs.prefix }}
 
     - uses: deepakputhraya/action-pr-title@master
       with:
-        regex: '\([\w\s]*\)*\)?:[\w\s]*'
+        regex: '(\([\w\s]*\)*\))?:[\w\s]*'
         allowed_prefixes:  ${{ steps.extract_branch.outputs.prefix }}
         prefix_case_sensitive: false
