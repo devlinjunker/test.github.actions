@@ -1,0 +1,19 @@
+# Name should reflect when action occurs
+name: Verify PR Can Merge
+
+# Workflow runs when manually triggered using the UI or API
+on: pull_request
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  cut-release:
+    runs-on: ubuntu-latest
+
+    steps: 
+    - name: "TBD: Verify that PR title matches regexp?"
+      run: "echo 'TODO: this still needs to be done'"
+
+      # get branch name
+      # get prefix from branch name
+      # get PR title
+      # verify title matches `^<prefix>(optional scope): (\w\s)*
