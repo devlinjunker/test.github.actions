@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps: 
+    - uses: actions/checkout@v1
 
     - name: "Get Branch Prefix"
       run: echo "##[set-output name=prefix;] $(echo $BRANCH_NAME | sed 's/\/.*//')"
@@ -17,10 +18,15 @@ jobs:
       env:
         BRANCH_NAME: ${{ github.head_ref }}
       
-    - name: "Get PR Title"
-      run: echo $BRANCH_PREFIX
+
+    - name: "TBD: error if title does not match: '^<prefix>(optional scope): (1+ word description)*'"
+      run: |
+        echo $BRANCH_PREFIX;
+        echo '^${{ steps.extract_branch.outputs.prefix }}(\(\w\s)*\))?:(\w\s)*';
       env:
         BRANCH_PREFIX: ${{ steps.extract_branch.outputs.prefix }}
 
-    - name: "Verify PR Title Matches"
-      run: "echo 'verify' # TBD: error if title does not match: '^<prefix>(optional scope): (1+ word description)*'"
+    - uses: dylanvann/check-pull-request-title@v1
+      with:
+        # Match pull request titles in the form UI-1234 - Message.
+        pattern: '^${{ steps.extract_branch.outputs.prefix }}(\(\w\s)*\))?:(\w\s)*'
