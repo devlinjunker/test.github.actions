@@ -11,18 +11,16 @@ jobs:
 
     steps: 
 
-    - name: "Get Prefix"
+    - name: "Get Branch Prefix"
       run: echo "##[set-output name=prefix;] $(echo $BRANCH_NAME | sed 's/\/.*//')"
       id: extract_branch
       env:
         BRANCH_NAME: ${{ github.head_ref }}
       
-    - name: "TBD: Verify that PR title matches regexp?"
+    - name: "Get PR Title"
       run: echo $BRANCH_PREFIX
       env:
         BRANCH_PREFIX: ${{ steps.extract_branch.outputs.prefix }}
 
-      # get branch name
-      # get prefix from branch name
-      # get PR title
-      # verify title matches `^<prefix>(optional scope): (\w\s)*
+    - name: "Verify PR Title Matches"
+      run: "TBD: error if title does not match: `^<prefix>(optional scope): (\w\s)*"
