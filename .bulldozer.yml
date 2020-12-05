@@ -11,7 +11,8 @@ merge:
   method: squash
 
   options: 
-    squash: "pull_request_title"
-    body: "sumarize_commits"
+    squash: 
+      title: "pull_request_title"
+      body: "sumarize_commits"
   
   delete_after_merge: true
