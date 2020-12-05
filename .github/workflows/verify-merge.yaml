@@ -19,7 +19,8 @@ jobs:
       env:
         BRANCH_NAME: ${{ github.head_ref }}
    
-    - uses: deepakputhraya/action-pr-title@master
+    - name: "Verify PR Title matches branch prefix (and conventional commit)"
+      uses: deepakputhraya/action-pr-title@master
       with:
         regex: '(\([\w\s]*\)*\))?:[\w\s]*'
         allowed_prefixes:  ${{ steps.extract_branch.outputs.prefix }}
