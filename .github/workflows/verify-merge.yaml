@@ -8,27 +8,19 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  verify-merge:
+  verify-pr-title:
     runs-on: ubuntu-latest
 
-    steps: 
-    - uses: actions/checkout@v1
+    steps:
 
     - name: "Get Branch Prefix"
       run: echo "##[set-output name=prefix;] $(echo $BRANCH_NAME | sed 's/\/.*//')"
       id: extract_branch
       env:
         BRANCH_NAME: ${{ github.head_ref }}
-      
-
-    - name: "TBD: error if title does not match: '^<prefix>(optional scope): (1+ word description)*'"
-      run: |
-        echo $BRANCH_PREFIX;
-        echo '^${{ steps.extract_branch.outputs.prefix }}(\([\w\s]*\)*\))?:[\w\s]*';
-      env:
-        BRANCH_PREFIX: ${{ steps.extract_branch.outputs.prefix }}
-
-    - uses: deepakputhraya/action-pr-title@master
+   
+    - name: "Verify PR Title matches branch prefix (and conventional commit)"
+      uses: deepakputhraya/action-pr-title@master
       with:
         regex: '(\([\w\s]*\)*\))?:[\w\s]*'
         allowed_prefixes:  ${{ steps.extract_branch.outputs.prefix }}
