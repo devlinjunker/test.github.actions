@@ -8,3 +8,9 @@ Repository containing files to test Github Actions and add/edit `.yaml` files fo
  - [x] Auto Merge PR on Comment
     - Needed to install Bulldozer Github App: https://github.com/apps/prylabs-bulldozer
  - [ ] Release Cutting
+
+## Links
+ - Other Ideas: 
+   - https://github.com/devlinjunker/template.webpack.fend/issues/21
+   - https://github.com/devlinjunker/template.hapi.rest/issues/5
+   
