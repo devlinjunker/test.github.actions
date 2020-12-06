@@ -5,7 +5,7 @@ Repository containing files to test Github Actions and add/edit `.yaml` files fo
  - [..] Verify Merge Possible
     - [x] PR Title matches branch name
     - [ ] PR Branch matches regexp?
- - [..] Auto Merge PR on Comment
+ - [x] Auto Merge PR on Comment
     - Needed to install Bulldozer Github App: https://github.com/apps/prylabs-bulldozer
  - [ ] Release Cutting
 
