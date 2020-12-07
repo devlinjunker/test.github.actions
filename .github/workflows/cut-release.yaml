@@ -1,0 +1,41 @@
+# Name should reflect when action occurs
+name: Cut Release Branch for Merge
+
+# Workflow runs when manually triggered using the UI or API
+on: workflow_dispatch
+ 
+# This Workflow should cut a `release-*` branch from `develop`
+jobs:
+  cut-release:
+    runs-on: ubuntu-latest
+
+    steps: 
+    - uses: actions/checkout@v2
+    
+    # TODO: Checkout `develop` and pull
+
+    # TODO: Verify that branch builds
+
+    - name: "TBD: Cut Release Branch"
+      run: |
+        git checkout -b $RELEASE_BRANCH;
+        echo 'TODO: run update-version script to $RELEASE_VERSION';
+        git commit -a -m "update version for $RELEASE_BRANCH"
+        git push --set-upstream origin $RELEASE_BRANCH;
+      with:
+        RELEASE_BRANCH: 0.2-SNAPSHOT
+        RELEASE_VERSION: 0.2.0
+
+    - name: "TBD: Calculate Next Version"
+      run: 'echo "TODO: Calculate Next Version (Patch + 1)"'
+
+    - name: "TBD: Update Next Version"
+      run: |
+        git checkout develop;
+        echo 'TODO: run update-version script to $NEXT_VERSION';
+      with:
+        NEXT_VERSION: 0.3-SNAPSHOT
+
+    # TODO: Create PR with $RELEASE_BRANCH ?
+
+# Look into: https://github.com/technote-space/release-github-actions
