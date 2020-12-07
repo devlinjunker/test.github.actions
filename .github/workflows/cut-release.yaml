@@ -14,27 +14,32 @@ jobs:
     
     # TODO: Checkout `develop` and pull
 
-    # TODO: Verify that branch builds
+  - name: "Get Release Info"
+      id: version
+      run: |
+        echo "##[set-output name=major;] `./git-mkver next --format "{Major}`"
+        echo "##[set-output name=minor;] `./git-mkver next --format "{Minor}`"
+        echo "##[set-output name=patch;] `./git-mkver next --format "{Patch}`"
 
-    - name: "TBD: Cut Release Branch"
+    - name: "Cut Release Branch"
       run: |
         git checkout -b $RELEASE_BRANCH;
-        echo 'TODO: run update-version script to $RELEASE_VERSION';
-        git commit -a -m "update version for $RELEASE_BRANCH"
+        echo 'TODO: run update-version script to $RELEASE_VERSION # ./scripts/release/cut-release.sh $RELEASE_BRANCH';
+        git commit -a -m "update version for $RELEASE_BRANCH";
         git push --set-upstream origin $RELEASE_BRANCH;
       with:
-        RELEASE_BRANCH: release-0.2
-        RELEASE_VERSION: 0.2.0
+        RELEASE_BRANCH: release-${{ steps.extract_branch.version.major }}.${{ steps.extract_branch.version.minor }}
+        RELEASE_VERSION: ${{ steps.extract_branch.version.major }}.${{ steps.extract_branch.version.minor }}.${{ steps.extract_branch.version.patch }}
 
-    - name: "TBD: Calculate Next Version"
-      run: 'echo "TODO: Calculate Next Version (Patch + 1)"'
 
-    - name: "TBD: Update Next Version"
+    - name: "Update Next Version"
       run: |
         git checkout develop;
-        echo 'TODO: run update-version script to $NEXT_VERSION';
+        echo 'TODO: run update-version script to $NEXT_VERSION # ./scripts/release/cut-release.sh $NEXT_VERSION';
+        git commit -a -m "update version after $RELEASE_BRANCH";
+        git push;
       with:
-        NEXT_VERSION: 0.3-SNAPSHOT
+        NEXT_VERSION: ${{ steps.extract_branch.version.major }}.${{ steps.extract_branch.version.minor + 1 }}-SNAPSHOT
 
     # TODO: Create PR with $RELEASE_BRANCH ?
 
