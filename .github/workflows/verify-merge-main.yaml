@@ -2,7 +2,7 @@ name: Verify Only Release/Hotfix PRs
 
 on: 
   pull_request:
-    types: [opened, reopened]
+    types: [opened, reopened, synchronize]
     branches: 
       - main
 
