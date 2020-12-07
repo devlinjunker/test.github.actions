@@ -9,10 +9,9 @@ jobs:
   cut-release:
     runs-on: ubuntu-latest
 
+    # TODO: Checkout `develop` and pull?
     steps: 
     - uses: actions/checkout@v2
-    
-    # TODO: Checkout `develop` and pull?
 
     - name: "Get Release Info"
       id: version
@@ -27,7 +26,7 @@ jobs:
         ./scripts/update-versions.sh $RELEASE_VERSION';
         git commit -a -m "update version for $RELEASE_BRANCH";
         git push --set-upstream origin $RELEASE_BRANCH;
-      with:
+      env:
         RELEASE_BRANCH: release-${{ steps.extract_branch.version.major }}.${{ steps.extract_branch.version.minor }}
         RELEASE_VERSION: ${{ steps.extract_branch.version.major }}.${{ steps.extract_branch.version.minor }}.${{ steps.extract_branch.version.patch }}
 
@@ -38,7 +37,8 @@ jobs:
         ./scripts/update-versions.sh $NEXT_VERSION';
         git commit -a -m "update version after $RELEASE_BRANCH";
         git push;
-      with:
+      env:
         NEXT_VERSION: ${{ steps.extract_branch.version.major }}.${{ steps.extract_branch.version.minor + 1 }}-SNAPSHOT
+        RELEASE_BRANCH: release-${{ steps.extract_branch.version.major }}.${{ steps.extract_branch.version.minor }}
 
     # TODO: Create PR with $RELEASE_BRANCH ?
