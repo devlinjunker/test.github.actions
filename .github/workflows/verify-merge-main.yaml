@@ -17,6 +17,6 @@ jobs:
         if [[ ! $PR_BRANCH =~ $REGEXP ]]; then
           exit -1;
         fi
-      with: 
+      env: 
         PR_BRANCH: ${{ github.head_ref }}
         $REGEXP: (release|hotfix)-*
