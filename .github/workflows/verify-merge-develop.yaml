@@ -1,7 +1,6 @@
 # Name should reflect when action occurs
 name: Verify PR Can Merge
 
-# Workflow runs when manually triggered using the UI or API
 on: 
   pull_request:
     types: [opened, edited, synchronize, reopened]
