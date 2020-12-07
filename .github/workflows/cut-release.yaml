@@ -23,7 +23,7 @@ jobs:
         git commit -a -m "update version for $RELEASE_BRANCH"
         git push --set-upstream origin $RELEASE_BRANCH;
       with:
-        RELEASE_BRANCH: 0.2-SNAPSHOT
+        RELEASE_BRANCH: release-0.2
         RELEASE_VERSION: 0.2.0
 
     - name: "TBD: Calculate Next Version"
