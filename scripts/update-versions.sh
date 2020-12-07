@@ -5,6 +5,6 @@
 ## README
 #   - Replace first 3 lines with:
 
-#   -------
+#   ---
 #   Version: @1
-#   -------
+#   ---
