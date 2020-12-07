@@ -13,6 +13,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       name: "Verify Master PR are from 'release-*' or 'hotfix-*' branch"
-      run: echo "TODO"
+      run: |
+        if [[ ! $PR_BRANCH =~ $REGEXP ]]; then
+          exit -1;
+        fi
       with: 
         PR_BRANCH: ${{ github.head_ref }}
+        $REGEXP: (release|hotfix)-*
