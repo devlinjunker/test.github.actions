@@ -1,6 +1,6 @@
------
-Version: 0.2-SNAPSHOT
------
+---
+Version: 0.2.0
+---
 
 # Test Github Actions
 Repository containing files to test Github Actions and add/edit `.yaml` files for seeing how actions will perform before adding them to other repos
@@ -11,7 +11,12 @@ Repository containing files to test Github Actions and add/edit `.yaml` files fo
     - [ ] PR Branch matches regexp?
  - [x] Auto Merge PR on Comment
     - Needed to install Bulldozer Github App: https://github.com/apps/prylabs-bulldozer
- - [ ] Release Cutting
+ - [..] Release Cutting
+    - Following https://nvie.com/posts/a-successful-git-branching-model/
+    - `release-*` branches off of `develop`
+    - `release-*` branches merge to `main`
+      - add git tag (vX.X.X) to `main` on merge
+      - upmerge `develop` from `main` on merge to `main`
 
 ## Links
  - Other Ideas: 
