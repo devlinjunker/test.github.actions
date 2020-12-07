@@ -15,8 +15,12 @@ Repository containing files to test Github Actions and add/edit `.yaml` files fo
     - Following https://nvie.com/posts/a-successful-git-branching-model/
     - `release-*` branches off of `develop`
     - `release-*` branches merge to `main`
-      - add git tag (vX.X.X) to `main` on merge
-      - upmerge `develop` from `main` on merge to `main`
+    - [ ] Create Github PR
+    - [ ] Create New Github Milestone?
+ - [ ] Release Merging
+    - add git tag (vX.X.X) to `main` on merge
+    - upmerge `develop` from `main` on merge to `main`
+ - [ ] Hotfix Branch creation?
 
 ## Links
  - Other Ideas: 
