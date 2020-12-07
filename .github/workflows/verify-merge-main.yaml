@@ -12,7 +12,7 @@ jobs:
   verify-main:
     runs-on: ubuntu-latest
     steps:
-      name: "Verify Master PR are from 'release-*' or 'hotfix-*' branch"
+    - name: "Verify Master PR are from 'release-*' or 'hotfix-*' branch"
       run: |
         if [[ ! $PR_BRANCH =~ $REGEXP ]]; then
           exit -1;

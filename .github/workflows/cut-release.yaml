@@ -14,7 +14,7 @@ jobs:
     
     # TODO: Checkout `develop` and pull?
 
-  - name: "Get Release Info"
+    - name: "Get Release Info"
       id: version
       run: |
         echo "##[set-output name=major;] `./git-mkver next --format "{Major}`"
