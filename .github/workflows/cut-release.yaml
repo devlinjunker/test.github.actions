@@ -12,7 +12,7 @@ jobs:
     steps: 
     - uses: actions/checkout@v2
     
-    # TODO: Checkout `develop` and pull
+    # TODO: Checkout `develop` and pull?
 
   - name: "Get Release Info"
       id: version
@@ -42,5 +42,3 @@ jobs:
         NEXT_VERSION: ${{ steps.extract_branch.version.major }}.${{ steps.extract_branch.version.minor + 1 }}-SNAPSHOT
 
     # TODO: Create PR with $RELEASE_BRANCH ?
-
-# Look into: https://github.com/technote-space/release-github-actions
