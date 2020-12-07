@@ -3,14 +3,15 @@ name: Verify Only Release/Hotfix PRs
 # Workflow runs when manually triggered using the UI or API
 on: 
   pull_request:
-    types: [opened, edited, synchronize, reopened]
+    types: [opened, reopened]
     branches: 
       - main
 
 jobs:
-  # Only allow `release-*` or `hotfix-*` branch to merge to `main`
+  # Only allow `release-*` or `hotfix-*` branches to merge to `main`
   verify-main:
     runs-on: ubuntu-latest
+    
     steps:
     - name: "Verify Master PR are from 'release-*' or 'hotfix-*' branch"
       run: |

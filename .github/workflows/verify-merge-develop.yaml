@@ -14,7 +14,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-
     - name: "Get Branch Prefix"
       run: echo "##[set-output name=prefix;] $(echo $BRANCH_NAME | sed 's/\/.*//')"
       id: extract_branch
