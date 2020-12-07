@@ -6,7 +6,7 @@ merge:
 
   ignore:  
     labels: ["status: WIP"]
-    branch_patterns: ["poc/.*"]
+    branch_patterns: ["main"]
   
   method: squash
 

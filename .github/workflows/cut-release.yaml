@@ -1,0 +1,44 @@
+# Name should reflect when action occurs
+name: Cut Release Branch for Merge
+
+# Workflow runs when manually triggered using the UI or API
+on: workflow_dispatch
+ 
+# This Workflow should cut a `release-*` branch from `develop`
+jobs:
+  cut-release:
+    runs-on: ubuntu-latest
+
+    steps: 
+    - uses: actions/checkout@v2
+    
+    # TODO: Checkout `develop` and pull?
+
+    - name: "Get Release Info"
+      id: version
+      run: |
+        echo "##[set-output name=major;] `./git-mkver next --format "{Major}`"
+        echo "##[set-output name=minor;] `./git-mkver next --format "{Minor}`"
+        echo "##[set-output name=patch;] `./git-mkver next --format "{Patch}`"
+
+    - name: "Cut Release Branch"
+      run: |
+        git checkout -b $RELEASE_BRANCH;
+        ./scripts/update-versions.sh $RELEASE_VERSION';
+        git commit -a -m "update version for $RELEASE_BRANCH";
+        git push --set-upstream origin $RELEASE_BRANCH;
+      with:
+        RELEASE_BRANCH: release-${{ steps.extract_branch.version.major }}.${{ steps.extract_branch.version.minor }}
+        RELEASE_VERSION: ${{ steps.extract_branch.version.major }}.${{ steps.extract_branch.version.minor }}.${{ steps.extract_branch.version.patch }}
+
+
+    - name: "Update Next Version"
+      run: |
+        git checkout develop;
+        ./scripts/update-versions.sh $NEXT_VERSION';
+        git commit -a -m "update version after $RELEASE_BRANCH";
+        git push;
+      with:
+        NEXT_VERSION: ${{ steps.extract_branch.version.major }}.${{ steps.extract_branch.version.minor + 1 }}-SNAPSHOT
+
+    # TODO: Create PR with $RELEASE_BRANCH ?

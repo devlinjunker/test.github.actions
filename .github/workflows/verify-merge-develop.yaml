@@ -1,0 +1,27 @@
+# Name should reflect when action occurs
+name: Verify PR Can Merge
+
+on: 
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+    branches:
+      - develop
+
+jobs:
+  # Verify that the PR Title matches expected Format
+  verify-pr-title:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: "Get Branch Prefix"
+      run: echo "##[set-output name=prefix;] $(echo $BRANCH_NAME | sed 's/\/.*//')"
+      id: extract_branch
+      env:
+        BRANCH_NAME: ${{ github.head_ref }}
+   
+    - name: "Verify PR Title matches branch prefix (and conventional commit)"
+      uses: deepakputhraya/action-pr-title@master
+      with:
+        regex: '(\([\w\s]*\)*\))?:[\w\s]*'
+        allowed_prefixes:  ${{ steps.extract_branch.outputs.prefix }}
+        prefix_case_sensitive: false
