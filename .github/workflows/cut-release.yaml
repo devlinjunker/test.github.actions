@@ -9,10 +9,9 @@ jobs:
   cut-release:
     runs-on: ubuntu-latest
 
+    # TODO: Checkout `develop` and pull?
     steps: 
     - uses: actions/checkout@v2
-    
-    # TODO: Checkout `develop` and pull?
 
     - name: "Get Release Info"
       id: version
