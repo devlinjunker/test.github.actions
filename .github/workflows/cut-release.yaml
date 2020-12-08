@@ -17,15 +17,15 @@ jobs:
       id: version
       run: |
         git fetch --all --tags;
-        git checkout develop;
-        echo "##[set-output name=major;]$(./git-mkver-linux next --format '{Major}')"
-        echo "##[set-output name=minor;]$(./git-mkver-linux next --format '{Minor}')"
-        echo "##[set-output name=patch;]$(./git-mkver-linux next --format '{Patch}')"
+        git pull --unshallow;
+        echo "##[set-output name=major;]$(./git-mkver-linux next --format '{Major}')";
+        echo "##[set-output name=minor;]$(./git-mkver-linux next --format '{Minor}')";
+        echo "##[set-output name=patch;]$(./git-mkver-linux next --format '{Patch}')";
 
     - name: "Cut Release Branch"
       run: |
         git config --global user.name 'Release Cut'
-        git config --global user.email 'release@test.com'
+        git config --global user.email 'devlin.junker@gmail.com'
         git checkout -b $RELEASE_BRANCH;
         ./scripts/update-versions.sh $RELEASE_VERSION;
         git commit -a -m "update version for $RELEASE_BRANCH";
@@ -37,7 +37,7 @@ jobs:
     - name: "Generate Next Version Number"
       id: next_version
       run: |
-        echo "##[set-output name=minor;] $(($MINOR_VERSION+1))"
+        echo "##[set-output name=minor;]$(($MINOR_VERSION+1))"
       env:
         MINOR_VERSION: ${{ steps.version.outputs.minor }}
 
