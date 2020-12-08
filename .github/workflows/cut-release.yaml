@@ -13,10 +13,6 @@ jobs:
     steps: 
     - uses: actions/checkout@v2
 
-    - run: | 
-      git fetch
-      git checkout develop
-
     - name: "Get Release Info"
       id: version
       run: |
