@@ -9,7 +9,6 @@ jobs:
   cut-release:
     runs-on: ubuntu-latest
 
-    # TODO: Checkout `develop` and pull?
     steps: 
     - uses: actions/checkout@v2
 
@@ -41,6 +40,8 @@ jobs:
       env:
         MINOR_VERSION: ${{ steps.version.outputs.minor }}
 
+    # TODO: This doesn't work because of branch-protections requiring status-check passing
+    # Need to: disable branch protection OR make action commit from admin account (token?)
     - name: "Update Next Version"
       run: |
         git checkout develop;
