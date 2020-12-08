@@ -27,15 +27,15 @@ jobs:
         git commit -a -m "update version for $RELEASE_BRANCH";
         git push --set-upstream origin $RELEASE_BRANCH;
       env:
-        RELEASE_BRANCH: release-${{ steps.version.major }}.${{ steps.version.minor }}
-        RELEASE_VERSION: ${{ steps.version.major }}.${{ steps.version.minor }}.${{ steps.version.patch }}
+        RELEASE_BRANCH: release-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}
+        RELEASE_VERSION: ${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}
 
     - name: "Generate Next Version Number"
       id: next_version
       run: |
         echo "##[set-output name=minor;] $(($MINOR_VERSION+1))"
       env:
-        MINOR_VERSION: ${{ steps.version.minor }}
+        MINOR_VERSION: ${{ steps.version.outputs.minor }}
 
     - name: "Update Next Version"
       run: |
@@ -44,7 +44,7 @@ jobs:
         git commit -a -m "update version after $RELEASE_BRANCH";
         git push;
       env:
-        NEXT_VERSION: ${{ steps.version.major }}.${{ steps.next_version.minor }}-SNAPSHOT
-        RELEASE_BRANCH: release-${{ steps.version.major }}.${{ steps.version.minor }}
+        NEXT_VERSION: ${{ steps.version.outputs.major }}.${{ steps.next_version.outputs.minor }}-SNAPSHOT
+        RELEASE_BRANCH: release-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}
 
     # TODO: Create PR with $RELEASE_BRANCH ?
