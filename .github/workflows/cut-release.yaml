@@ -13,6 +13,10 @@ jobs:
     steps: 
     - uses: actions/checkout@v2
 
+    - run: | 
+      git fetch
+      git checkout develop
+
     - name: "Get Release Info"
       id: version
       run: |
@@ -23,7 +27,7 @@ jobs:
     - name: "Cut Release Branch"
       run: |
         git checkout -b $RELEASE_BRANCH;
-        ./scripts/update-versions.sh $RELEASE_VERSION';
+        ./scripts/update-versions.sh $RELEASE_VERSION;
         git commit -a -m "update version for $RELEASE_BRANCH";
         git push --set-upstream origin $RELEASE_BRANCH;
       env:
@@ -40,7 +44,7 @@ jobs:
     - name: "Update Next Version"
       run: |
         git checkout develop;
-        ./scripts/update-versions.sh $NEXT_VERSION';
+        ./scripts/update-versions.sh $NEXT_VERSION;
         git commit -a -m "update version after $RELEASE_BRANCH";
         git push;
       env:
