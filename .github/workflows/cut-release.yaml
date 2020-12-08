@@ -20,6 +20,8 @@ jobs:
     - name: "Get Release Info"
       id: version
       run: |
+        git fetch
+        git checkout develop
         echo "##[set-output name=major;]$(./git-mkver-linux next --format '{Major}')"
         echo "##[set-output name=minor;]$(./git-mkver-linux next --format '{Minor}')"
         echo "##[set-output name=patch;]$(./git-mkver-linux next --format '{Patch}')"
