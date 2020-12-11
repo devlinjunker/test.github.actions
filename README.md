@@ -3,7 +3,7 @@ Version: 0.3-SNAPSHOT
 ---
 
 # Test Github Actions
-Repository containing files to test Github Actions and add/edit `.yaml` files for seeing how actions will perform before adding them to other repos
+Repository containing files to test Github Actions and add/edit `.yaml` files for seeing how actions will perform before adding them to other git repos
 
 ## TODO:
  - [..] Verify Merge Possible
@@ -27,4 +27,3 @@ Repository containing files to test Github Actions and add/edit `.yaml` files fo
  - Other Ideas: 
    - https://github.com/devlinjunker/template.webpack.fend/issues/21
    - https://github.com/devlinjunker/template.hapi.rest/issues/5
-   
