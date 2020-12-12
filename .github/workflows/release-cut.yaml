@@ -39,14 +39,14 @@ jobs:
     # TODO: Create PR with $RELEASE_BRANCH (ideally from release@cut.com user)
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@v3
-        with:
-          commit-msg: "update version for $RELEASE_BRANCH"
-          branch: release-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}
-          base: main
-          title: release-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}
-          body: "TODO: use short commit log"
-          # labels: release
-          committer: Release Cut <release@cut.com>
+      with:
+        commit-msg: "update version for $RELEASE_BRANCH"
+        branch: release-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}
+        base: main
+        title: release-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}
+        body: "TODO: use short commit log"
+        # labels: release
+        committer: Release Cut <release@cut.com>
 
     # Note: This increments minor version only, for now major releases will be done manually
     # until we figure out a better method
