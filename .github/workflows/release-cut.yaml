@@ -1,5 +1,5 @@
 # Name should reflect when action occurs
-name: Cut Release Branch for Merge
+name: Cut Release Branch off "develop"
 
 # Workflow runs when manually triggered using the UI or API
 on: workflow_dispatch
