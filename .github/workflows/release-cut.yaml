@@ -36,8 +36,7 @@ jobs:
         RELEASE_BRANCH: release-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}
         RELEASE_VERSION: ${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}
 
-    # Note: This increments minor version only, for now major releases will be done manually
-    # until we figure out a better method
+    # Note: This increments minor version only, for now major releases will be done manually until we figure out a better method
     - name: "Generate Next Version Number"
       id: next_version
       run: |
