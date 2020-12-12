@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps: 
+    - uses: actions/setup-node@v1
     - uses: actions/checkout@v2
       with:
         ## This is a Personal Access Token from Admin User that allows us to bypass branch protections on develop
@@ -30,6 +31,8 @@ jobs:
         git config --global user.email 'release@cut.com'
         git checkout -b $RELEASE_BRANCH;
         ./scripts/update-versions.sh $RELEASE_VERSION;
+        npm init;
+        npm install typescript
       env:
         RELEASE_BRANCH: release-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}
         RELEASE_VERSION: ${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}
