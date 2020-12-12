@@ -10,7 +10,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps: 
-    - uses: actions/setup-node@v1
     - uses: actions/checkout@v2
       with:
         ## This is a Personal Access Token from Admin User that allows us to bypass branch protections on develop
@@ -31,22 +30,18 @@ jobs:
         git config --global user.email 'release@cut.com'
         git checkout -b $RELEASE_BRANCH;
         ./scripts/update-versions.sh $RELEASE_VERSION;
-        npm init;
-        npm install typescript
       env:
         RELEASE_BRANCH: release-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}
         RELEASE_VERSION: ${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}
 
     - name: Create Pull Request
-      uses: gha-utilities/init-pull-request@v0.1.9
+      uses: repo-sync/pull-request@v2
       with:
-        verbose: true
-        pull_request_token: ${{ secrets.PAT }}
-        head: release-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}
-        base: main
-        title: release-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}
-        body: "TODO: use short commit log"
-        # labels: release
+        source_branch: release-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}                                 # If blank, default: triggered branch
+        destination_branch: "main"                      # If blank, default: master
+        pr_title: release-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}
+        pr_body: "TODO: use short commit log"
+        # pr_label: release
 
     # Note: This increments minor version only, for now major releases will be done manually
     # until we figure out a better method
