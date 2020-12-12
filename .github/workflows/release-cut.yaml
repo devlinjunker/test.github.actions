@@ -30,6 +30,8 @@ jobs:
         git config --global user.email 'release@cut.com'
         git checkout -b $RELEASE_BRANCH;
         ./scripts/update-versions.sh $RELEASE_VERSION;
+        git commit -a -m "update version for $RELEASE_BRANCH";
+        git push --set-upstream origin $RELEASE_BRANCH;
       env:
         RELEASE_BRANCH: release-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}
         RELEASE_VERSION: ${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}
