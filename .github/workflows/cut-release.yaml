@@ -17,7 +17,6 @@ jobs:
     - name: "Get Release Info"
       id: version
       run: |
-        git clone 
         git fetch --all --tags;
         git pull --unshallow;
         echo "##[set-output name=major;]$(./git-mkver-linux next --format '{Major}')";
