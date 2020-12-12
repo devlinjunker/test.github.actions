@@ -12,6 +12,7 @@ jobs:
     steps: 
     - uses: actions/checkout@v2
       with:
+        ## This is a Personal Access Token from Admin User that allows us to bypass branch protections on develop
         token: ${{ secrets.PAT }}
 
     - name: "Get Release Info"
@@ -35,6 +36,8 @@ jobs:
         RELEASE_BRANCH: release-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}
         RELEASE_VERSION: ${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}
 
+    # Note: This increments minor version only, for now major releases will be done manually
+    # until we figure out a better method
     - name: "Generate Next Version Number"
       id: next_version
       run: |
@@ -42,9 +45,7 @@ jobs:
       env:
         MINOR_VERSION: ${{ steps.version.outputs.minor }}
 
-    # TODO: This doesn't work because of branch-protections requiring status-check passing
-    # Need to: disable branch protection OR make action commit from admin account (token?)
-    - name: "Update Next Version"
+    - name: "Update Next Version" # in repo files
       run: |
         git checkout develop;
         ./scripts/update-versions.sh $NEXT_VERSION;
@@ -54,4 +55,4 @@ jobs:
         NEXT_VERSION: ${{ steps.version.outputs.major }}.${{ steps.next_version.outputs.minor }}-SNAPSHOT
         RELEASE_BRANCH: release-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}
 
-    # TODO: Create PR with $RELEASE_BRANCH ?
+    # TODO: Create PR with $RELEASE_BRANCH (ideally from release@cut.com user)
