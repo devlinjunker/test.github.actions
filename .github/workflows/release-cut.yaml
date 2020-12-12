@@ -23,7 +23,7 @@ jobs:
         echo "##[set-output name=major;]$(./git-mkver-linux next --format '{Major}')";
         echo "##[set-output name=minor;]$(./git-mkver-linux next --format '{Minor}')";
         echo "##[set-output name=patch;]$(./git-mkver-linux next --format '{Patch}')";
-
+    
     - name: "Cut Release Branch"
       run: |
         git config --global user.name 'Release Cut'
@@ -36,7 +36,19 @@ jobs:
         RELEASE_BRANCH: release-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}
         RELEASE_VERSION: ${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}
 
-    # Note: This increments minor version only, for now major releases will be done manually until we figure out a better method
+    # - name: Create Pull Request
+    #   uses: peter-evans/create-pull-request@v3
+    #   with:
+    #     commit-msg: "update version for release-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}"
+    #     branch: release-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}
+    #     base: main
+    #     title: release-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}
+    #     body: "TODO: use short commit log"
+    #     committer: Release Cut <release@cut.com>
+        # labels: release
+
+    # Note: This increments minor version only, for now major releases will be done manually
+    # until we figure out a better method
     - name: "Generate Next Version Number"
       id: next_version
       run: |
@@ -53,5 +65,3 @@ jobs:
       env:
         NEXT_VERSION: ${{ steps.version.outputs.major }}.${{ steps.next_version.outputs.minor }}-SNAPSHOT
         RELEASE_BRANCH: release-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}
-
-    # TODO: Create PR with $RELEASE_BRANCH (ideally from release@cut.com user)
