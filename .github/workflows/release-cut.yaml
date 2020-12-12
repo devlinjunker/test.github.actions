@@ -24,17 +24,17 @@ jobs:
         echo "##[set-output name=minor;]$(./git-mkver-linux next --format '{Minor}')";
         echo "##[set-output name=patch;]$(./git-mkver-linux next --format '{Patch}')";
     
-    # - name: "Cut Release Branch"
-    #   run: |
-    #     git config --global user.name 'Release Cut'
-    #     git config --global user.email 'release@cut.com'
-    #     git checkout -b $RELEASE_BRANCH;
-    #     ./scripts/update-versions.sh $RELEASE_VERSION;
-    #     git commit -a -m "update version for $RELEASE_BRANCH";
-    #     git push --set-upstream origin $RELEASE_BRANCH;
-    #   env:
-    #     RELEASE_BRANCH: release-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}
-    #     RELEASE_VERSION: ${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}
+    - name: "Cut Release Branch"
+      run: |
+        git config --global user.name 'Release Cut'
+        git config --global user.email 'release@cut.com'
+        git checkout -b $RELEASE_BRANCH;
+        ./scripts/update-versions.sh $RELEASE_VERSION;
+        git commit -a -m "update version for $RELEASE_BRANCH";
+        git push --set-upstream origin $RELEASE_BRANCH;
+      env:
+        RELEASE_BRANCH: release-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}
+        RELEASE_VERSION: ${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}
 
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@v3
@@ -58,6 +58,8 @@ jobs:
 
     - name: "Update Next Version" # in repo files
       run: |
+        git config --global user.name 'Release Cut'
+        git config --global user.email 'release@cut.com'
         git checkout develop;
         ./scripts/update-versions.sh $NEXT_VERSION;
         git commit -a -m "update version after $RELEASE_BRANCH";
