@@ -1,0 +1,3 @@
+# TODO: on merge to main from release (and patch?) branch
+# - Create Tag (vX.X.X) on `main` branch
+# - upmerge develop from main (so develop has tag in history)

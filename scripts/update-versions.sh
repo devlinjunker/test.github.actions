@@ -1,5 +1,5 @@
 #! /bin/bash
-#  Open Versioned files and increment version
+#  Open Versioned files in repo and increment version
 
 if [ -z $1 ]; then
     echo "Error: no version number"
