@@ -1,0 +1,67 @@
+# Name should reflect when action occurs
+name: Cut Release Branch for Merge
+
+# Workflow runs when manually triggered using the UI or API
+on: workflow_dispatch
+ 
+# This Workflow should cut a `release-*` branch from `develop`
+jobs:
+  cut-release:
+    runs-on: ubuntu-latest
+
+    steps: 
+    - uses: actions/checkout@v2
+      with:
+        ## This is a Personal Access Token from Admin User that allows us to bypass branch protections on develop
+        token: ${{ secrets.PAT }}
+
+    - name: "Get Release Info"
+      id: version
+      run: |
+        git fetch --all --tags;
+        git pull --unshallow;
+        echo "##[set-output name=major;]$(./git-mkver-linux next --format '{Major}')";
+        echo "##[set-output name=minor;]$(./git-mkver-linux next --format '{Minor}')";
+        echo "##[set-output name=patch;]$(./git-mkver-linux next --format '{Patch}')";
+    
+    - name: "Cut Release Branch"
+      run: |
+        git config --global user.name 'Release Cut'
+        git config --global user.email 'release@cut.com'
+        git checkout -b $RELEASE_BRANCH;
+        ./scripts/update-versions.sh $RELEASE_VERSION;
+        git commit -a -m "update version for $RELEASE_BRANCH";
+        git push --set-upstream origin $RELEASE_BRANCH;
+      env:
+        RELEASE_BRANCH: release-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}
+        RELEASE_VERSION: ${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}
+
+    # - name: Create Pull Request
+    #   uses: peter-evans/create-pull-request@v3
+    #   with:
+    #     commit-msg: "update version for release-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}"
+    #     branch: release-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}
+    #     base: main
+    #     title: release-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}
+    #     body: "TODO: use short commit log"
+    #     committer: Release Cut <release@cut.com>
+        # labels: release
+
+    # Note: This increments minor version only, for now major releases will be done manually
+    # until we figure out a better method
+    - name: "Generate Next Version Number"
+      id: next_version
+      run: |
+        echo "##[set-output name=minor;]$(($MINOR_VERSION+1))"
+      env:
+        MINOR_VERSION: ${{ steps.version.outputs.minor }}
+
+    - name: "Update Next Version" # in repo files
+      run: |
+        git checkout develop;
+        ./scripts/update-versions.sh $NEXT_VERSION;
+        git commit -a -m "update version after $RELEASE_BRANCH";
+        git push;
+      env:
+        NEXT_VERSION: ${{ steps.version.outputs.major }}.${{ steps.next_version.outputs.minor }}-SNAPSHOT
+        RELEASE_BRANCH: release-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}
