@@ -35,14 +35,14 @@ jobs:
         RELEASE_VERSION: ${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}
 
     - name: Create Pull Request
-      uses: peter-evans/create-pull-request@v3
+      uses: gha-utilities/init-pull-request@v0.2.0
       with:
-        commit-message: "update version for release-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}"
-        branch: release-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}
+        verbose: true
+        pull_request_token: ${{ secrets.PAT }}
+        head: release-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}
         base: main
         title: release-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}
         body: "TODO: use short commit log"
-        committer: Release Cut <release@cut.com>
         # labels: release
 
     # Note: This increments minor version only, for now major releases will be done manually
