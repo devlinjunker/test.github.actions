@@ -16,7 +16,7 @@ Repository containing files to test Github Actions and add/edit `.yaml` files fo
     - `release-*` branches off of `develop`
     - `release-*` branches merge to `main`
     - I think we DONT want to `squash and merge` here, so that the history stays intact
-    - [ ] Create Github PR
+    - [x] Create Github PR
     - [ ] Create New Github Milestone?
  - [..] Release Merging
     - add git tag (vX.X.X) to `main` on merge
