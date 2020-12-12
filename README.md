@@ -1,5 +1,5 @@
 ---
-Version: 0.4-SNAPSHOT
+Version: 0.5-SNAPSHOT
 ---
 
 # Test Github Actions
