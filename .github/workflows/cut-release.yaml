@@ -9,36 +9,49 @@ jobs:
   cut-release:
     runs-on: ubuntu-latest
 
-    # TODO: Checkout `develop` and pull?
     steps: 
     - uses: actions/checkout@v2
+      with:
+        token: ${{ secrets.PAT }}
 
     - name: "Get Release Info"
       id: version
       run: |
-        echo "##[set-output name=major;] `./git-mkver next --format "{Major}`"
-        echo "##[set-output name=minor;] `./git-mkver next --format "{Minor}`"
-        echo "##[set-output name=patch;] `./git-mkver next --format "{Patch}`"
+        git fetch --all --tags;
+        git pull --unshallow;
+        echo "##[set-output name=major;]$(./git-mkver-linux next --format '{Major}')";
+        echo "##[set-output name=minor;]$(./git-mkver-linux next --format '{Minor}')";
+        echo "##[set-output name=patch;]$(./git-mkver-linux next --format '{Patch}')";
 
     - name: "Cut Release Branch"
       run: |
+        git config --global user.name 'Release Cut'
+        git config --global user.email 'release@cut.com'
         git checkout -b $RELEASE_BRANCH;
-        ./scripts/update-versions.sh $RELEASE_VERSION';
+        ./scripts/update-versions.sh $RELEASE_VERSION;
         git commit -a -m "update version for $RELEASE_BRANCH";
         git push --set-upstream origin $RELEASE_BRANCH;
       env:
-        RELEASE_BRANCH: release-${{ steps.extract_branch.version.major }}.${{ steps.extract_branch.version.minor }}
-        RELEASE_VERSION: ${{ steps.extract_branch.version.major }}.${{ steps.extract_branch.version.minor }}.${{ steps.extract_branch.version.patch }}
+        RELEASE_BRANCH: release-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}
+        RELEASE_VERSION: ${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}
 
+    - name: "Generate Next Version Number"
+      id: next_version
+      run: |
+        echo "##[set-output name=minor;]$(($MINOR_VERSION+1))"
+      env:
+        MINOR_VERSION: ${{ steps.version.outputs.minor }}
 
+    # TODO: This doesn't work because of branch-protections requiring status-check passing
+    # Need to: disable branch protection OR make action commit from admin account (token?)
     - name: "Update Next Version"
       run: |
         git checkout develop;
-        ./scripts/update-versions.sh $NEXT_VERSION';
+        ./scripts/update-versions.sh $NEXT_VERSION;
         git commit -a -m "update version after $RELEASE_BRANCH";
         git push;
       env:
-        NEXT_VERSION: ${{ steps.extract_branch.version.major }}.${{ steps.extract_branch.version.minor + 1 }}-SNAPSHOT
-        RELEASE_BRANCH: release-${{ steps.extract_branch.version.major }}.${{ steps.extract_branch.version.minor }}
+        NEXT_VERSION: ${{ steps.version.outputs.major }}.${{ steps.next_version.outputs.minor }}-SNAPSHOT
+        RELEASE_BRANCH: release-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}
 
     # TODO: Create PR with $RELEASE_BRANCH ?

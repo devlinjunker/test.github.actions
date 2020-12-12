@@ -3,6 +3,7 @@ version: 1
 merge:
   trigger:
     comments: ["!merge", "! merge"]
+    branch_patterns: ["develop", "develop-.*"]
 
   ignore:  
     labels: ["status: WIP"]
