@@ -11,10 +11,13 @@ jobs:
 
     steps: 
     - uses: actions/checkout@v2
+      with:
+        token: ${{ secrets.PAT }}
 
     - name: "Get Release Info"
       id: version
       run: |
+        git clone 
         git fetch --all --tags;
         git pull --unshallow;
         echo "##[set-output name=major;]$(./git-mkver-linux next --format '{Major}')";
