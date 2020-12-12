@@ -35,7 +35,7 @@ jobs:
         RELEASE_VERSION: ${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}
 
     - name: Create Pull Request
-      uses: gha-utilities/init-pull-request@v0.2.0
+      uses: gha-utilities/init-pull-request@v0.1.9
       with:
         verbose: true
         pull_request_token: ${{ secrets.PAT }}
