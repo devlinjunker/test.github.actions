@@ -25,6 +25,8 @@ jobs:
 
     - name: "Cut Release Branch"
       run: |
+        git config --global user.name 'Release Cut'
+        git config --global user.email 'release@cut.com'
         git checkout -b $RELEASE_BRANCH;
         ./scripts/update-versions.sh $RELEASE_VERSION;
         git commit -a -m "update version for $RELEASE_BRANCH";
