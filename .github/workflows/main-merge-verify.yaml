@@ -1,4 +1,4 @@
-name: Verify Only Release/Hotfix PRs
+name: Release/Hotfix - Verify Merge PR
 
 on: 
   pull_request:
