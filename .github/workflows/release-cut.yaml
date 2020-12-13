@@ -29,7 +29,7 @@ jobs:
         git branch -a | grep $RELEASE_BRANCH;
         if [ "$?" -ne 0 ]; then
           echo "::error::Release Branch Already Exists";
-          exit -1;
+          exit 1;
         fi
         git config --global user.name 'Release Cut'
         git config --global user.email 'release@cut.com'
