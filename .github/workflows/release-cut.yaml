@@ -25,6 +25,7 @@ jobs:
     
     - name: Check Release Branch
       id: branch-exists
+      continue-on-error: true
       run: |
         git branch -a | grep $RELEASE_BRANCH;
         echo "##[set-output name=code;]$(echo $?)";
