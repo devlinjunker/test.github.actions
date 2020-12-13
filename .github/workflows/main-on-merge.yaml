@@ -39,7 +39,7 @@ jobs:
         echo "##[set-output name=major;]$(./git-mkver-linux next --format '{Major}')";
         echo "##[set-output name=minor;]$(./git-mkver-linux next --format '{Minor}')";
         echo "##[set-output name=patch;]$(./git-mkver-linux next --format '{Patch}')";
-        echo "##[set-output name=log;]$(git log --format=%s $(git tag | tail -n 1)..HEAD | grep -i -E '^($CHANGELOG_PREFIX_LIST)')";
+        echo '##[set-output name=log;]$(git log --format=%s $(git tag | tail -n 1)..HEAD | grep -i -E "^($CHANGELOG_PREFIX_LIST)")';
       env:
         CHANGELOG_PREFIX_LIST: "feature|feat|fix|bugfix|bug"
 
