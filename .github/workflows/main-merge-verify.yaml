@@ -19,4 +19,4 @@ jobs:
         fi
       env: 
         PR_BRANCH: ${{ github.head_ref }}
-        $REGEXP: (release|hotfix)-*
+        REGEXP: (release|hotfix)-*
