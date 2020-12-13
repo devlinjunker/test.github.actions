@@ -15,7 +15,7 @@ jobs:
     - uses: actions/checkout@v2
       with:
         ## This is a Personal Access Token from Admin User that allows us to bypass branch protections on develop
-        token: ${{ secrets.GITHUB_TOKEN }}
+        token: ${{ secrets.PAT }}
         fetch-depth: 0
 
     # NOTE: Update CHANGELOG_PREFIX_LIST to configure the lines you wan to include in the changelog (body of release PR)
