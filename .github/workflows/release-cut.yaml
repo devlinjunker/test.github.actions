@@ -28,6 +28,8 @@ jobs:
       run: |
         git branch -a | grep $RELEASE_BRANCH;
         echo "##[set-output name=exit;]$(echo $?)";
+      env:
+        RELEASE_BRANCH: release-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}
 
     - name: Fail if Branch Exists
       if: ${{ steps.branch-exists.exit }} != 0
