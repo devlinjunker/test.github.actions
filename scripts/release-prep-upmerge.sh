@@ -10,4 +10,5 @@ git pull;
 git merge main;
 
 # TODO: Resolve conflicts better (maybe https://github.com/jakub-g/git-resolve-conflict)
+git reset README.md;
 git checkout README.md;
