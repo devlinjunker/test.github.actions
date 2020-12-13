@@ -7,6 +7,8 @@ on:
 
 jobs:
   create-release-tag:
+    strategy: 
+      max-parallel: 1
     runs-on: ubuntu-latest
 
     steps: 
@@ -43,6 +45,18 @@ jobs:
         release_name: Release ${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}
         body: ${{ steps.version.outputs.changelog }}
   
+  upmerge-after-release:      
+    strategy: 
+      max-parallel: 1
+    runs-on: ubuntu-latest
+
+    steps: 
+    - uses: actions/checkout@v2
+      with:
+        ## This is a Personal Access Token from Admin User that allows us to bypass branch protections on develop
+        token: ${{ secrets.GITHUB_TOKEN }}
+        fetch-depth: 0  
+        
     - name: Upmerge develop After Release
       run: |
         git config --global user.name 'Release Cut';
