@@ -10,7 +10,7 @@ on:
 
 jobs:
   # Verify that the PR Title matches expected Format
-  verify-pr-title:
+  verify-develop:
     runs-on: ubuntu-latest
 
     steps:

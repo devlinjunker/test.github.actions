@@ -22,9 +22,9 @@ jobs:
       run: |
         git checkout main;
         git checkout develop
-        echo "##[set-output name=major;]$(./git-mkver-linux next --format '{Major}')";
-        echo "##[set-output name=minor;]$(./git-mkver-linux next --format '{Minor}')";
-        echo "##[set-output name=patch;]$(./git-mkver-linux next --format '{Patch}')";
+        echo "##[set-output name=major;]$(./scripts/release/git-mkver-linux next --format '{Major}')";
+        echo "##[set-output name=minor;]$(./scripts/release/git-mkver-linux next --format '{Minor}')";
+        echo "##[set-output name=patch;]$(./scripts/release/git-mkver-linux next --format '{Patch}')";
         CHANGELOG=$(git log --format=%s main..HEAD | grep -i -E "^($CHANGELOG_PREFIX_LIST)" | sed "s/^/ - /") 
         CHANGELOG="${CHANGELOG//'%'/'%25'}"
         CHANGELOG="${CHANGELOG//$'\n'/'%0A'}"
@@ -33,13 +33,15 @@ jobs:
       env:
         CHANGELOG_PREFIX_LIST: "feature|feat|fix|bugfix|bug"
 
+    # Attempts to cut a release branch
+    #   fails if there are no `feat|feature` commits since last release
     - name: "Cut Release Branch"
       run: |
-        ./scripts/check-release-branch.sh
+        ./scripts/release/release-cut-check.sh
         git config --global user.name 'Release Cut'
         git config --global user.email 'release@cut.com'
         git checkout -b $RELEASE_BRANCH;
-        ./scripts/update-versions.sh $RELEASE_VERSION;
+        ./scripts/release/update-versions.sh $RELEASE_VERSION;
         git commit -a -m "update version for $RELEASE_BRANCH";
         git push --set-upstream origin $RELEASE_BRANCH;
       env:
@@ -71,7 +73,7 @@ jobs:
         git config --global user.name 'Release Cut'
         git config --global user.email 'release@cut.com'
         git checkout develop;
-        ./scripts/update-versions.sh $NEXT_VERSION;
+        ./scripts/release/update-versions.sh $NEXT_VERSION;
         git commit -a -m "update version after $RELEASE_BRANCH";
         git push;
       env:

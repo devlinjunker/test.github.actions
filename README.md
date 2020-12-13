@@ -1,9 +1,9 @@
 ---
-Version: 0.14.0
+Version: 0.15.0
 ---
 
 # Test Github Actions
-Repository containing files to test Github Actions and add/edit `.yaml` files for seeing how actions will perform before adding them to other git repos
+Repository containing files to test Github Actions and add/edit `.yaml` files for seeing how actions will perform before adding them to other git repos.
 
 ## TODO:
  - [x] Develop Branch Merge Verification

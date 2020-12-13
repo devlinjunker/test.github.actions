@@ -12,8 +12,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - uses: actions/checkout@v2
+
     - name: "Verify Master PR are from 'release-*' or 'hotfix-*' branch"
-      run: ./scripts/branch-match.sh
+      run: ./scripts/release/branch-match.sh
       env: 
         BRANCH: ${{ github.head_ref }}
         REGEXP: (release-[0-9]+.[0-9]+|hotfix-[0-9]+.[0-9]+.[0-9]+)
