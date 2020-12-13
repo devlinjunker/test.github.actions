@@ -22,26 +22,11 @@ jobs:
         echo "##[set-output name=major;]$(./git-mkver-linux next --format '{Major}')";
         echo "##[set-output name=minor;]$(./git-mkver-linux next --format '{Minor}')";
         echo "##[set-output name=patch;]$(./git-mkver-linux next --format '{Patch}')";
-    
-    - name: Check Release Branch
-      id: branch-exists
-      run: git branch -a | grep $RELEASE_BRANCH;
-      env:
-        RELEASE_BRANCH: release-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}
-
-    - name: Fail if Branch Exists
-      if: ${{ success() }} # if branch-exists succeeds, then branch already exists
-      run: |
-        echo "::error::Release Branch Already Exists";
 
     # TODO: if $RELEASE_BRANCH exists, fail action
     - name: "Cut Release Branch"
-      if: ${{ failure() }} # if branch-exists fails, then branch does not exist yet
       run: |
-        
-        if [ $? -eq 0 ]; then
-          
-        fi;
+        ./scripts/check-release-branch.sh
         git config --global user.name 'Release Cut'
         git config --global user.email 'release@cut.com'
         git checkout -b $RELEASE_BRANCH;
@@ -53,7 +38,6 @@ jobs:
         RELEASE_VERSION: ${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}
 
     - name: Create Pull Request
-      if: ${{ failure() }} # if branch-exists fails, then branch does not exist yet
       uses: repo-sync/pull-request@v2
       with:
         github_token: ${{ secrets.PAT }}
@@ -66,7 +50,6 @@ jobs:
     # Note: This increments minor version only, for now major releases will be done manually
     # until we figure out a better method
     - name: "Generate Next Version Number"
-      if: ${{ failure() }} # if branch-exists fails, then branch does not exist yet
       id: next_version
       run: |
         echo "##[set-output name=minor;]$(($MINOR_VERSION+1))"
@@ -74,7 +57,6 @@ jobs:
         MINOR_VERSION: ${{ steps.version.outputs.minor }}
 
     - name: "Update Next Version" # in repo files
-      if: ${{ failure() }} # if branch-exists fails, then branch does not exist yet
       run: |
         git config --global user.name 'Release Cut'
         git config --global user.email 'release@cut.com'
