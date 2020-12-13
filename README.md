@@ -21,7 +21,7 @@ Repository containing files to test Github Actions and add/edit `.yaml` files fo
  - [x] Release Merging
     - add git tag (vX.X.X) to `main` on merge
     - upmerge `develop` from `main` on merge to `main`
- - [ ] Hotfix Branch creation?
+ - [x] Hotfix Branch creation
 
 ## Links
  - Other Ideas: 
