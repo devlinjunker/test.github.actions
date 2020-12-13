@@ -25,21 +25,18 @@ jobs:
     
     - name: Check Release Branch
       id: branch-exists
-      continue-on-error: true
-      run: |
-        git branch -a | grep $RELEASE_BRANCH;
-        echo "##[set-output name=code;]$(echo $?)";
+      run: git branch -a | grep $RELEASE_BRANCH;
       env:
         RELEASE_BRANCH: release-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}
 
     - name: Fail if Branch Exists
-      if: success()
+      if: ${{ success() }} # if branch-exists succeeds, then branch already exists
       run: |
         echo "::error::Release Branch Already Exists";
-        exit 1;
 
     # TODO: if $RELEASE_BRANCH exists, fail action
     - name: "Cut Release Branch"
+      if: ${{ failure() }} # if branch-exists fails, then branch does not exist yet
       run: |
         
         if [ $? -eq 0 ]; then
@@ -56,6 +53,7 @@ jobs:
         RELEASE_VERSION: ${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}
 
     - name: Create Pull Request
+      if: ${{ failure() }} # if branch-exists fails, then branch does not exist yet
       uses: repo-sync/pull-request@v2
       with:
         github_token: ${{ secrets.PAT }}
@@ -68,6 +66,7 @@ jobs:
     # Note: This increments minor version only, for now major releases will be done manually
     # until we figure out a better method
     - name: "Generate Next Version Number"
+      if: ${{ failure() }} # if branch-exists fails, then branch does not exist yet
       id: next_version
       run: |
         echo "##[set-output name=minor;]$(($MINOR_VERSION+1))"
@@ -75,6 +74,7 @@ jobs:
         MINOR_VERSION: ${{ steps.version.outputs.minor }}
 
     - name: "Update Next Version" # in repo files
+      if: ${{ failure() }} # if branch-exists fails, then branch does not exist yet
       run: |
         git config --global user.name 'Release Cut'
         git config --global user.email 'release@cut.com'
