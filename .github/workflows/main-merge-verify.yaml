@@ -15,8 +15,8 @@ jobs:
     - name: "Verify Master PR are from 'release-*' or 'hotfix-*' branch"
       run: |
         if [[ ! $PR_BRANCH =~ $REGEXP ]]; then
-          exit -1;
+          exit 1;
         fi
       env: 
         PR_BRANCH: ${{ github.head_ref }}
-        $REGEXP: (release|hotfix)-*
+        REGEXP: (release|hotfix)-*

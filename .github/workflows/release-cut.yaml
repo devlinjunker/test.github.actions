@@ -1,5 +1,4 @@
-# Name should reflect when action occurs
-name: Cut Release Branch off "develop"
+name: Cut Release Branch and PR
 
 # Workflow runs when manually triggered using the UI or API
 on: workflow_dispatch
@@ -23,9 +22,11 @@ jobs:
         echo "##[set-output name=major;]$(./git-mkver-linux next --format '{Major}')";
         echo "##[set-output name=minor;]$(./git-mkver-linux next --format '{Minor}')";
         echo "##[set-output name=patch;]$(./git-mkver-linux next --format '{Patch}')";
-    
+
+    # TODO: if $RELEASE_BRANCH exists, fail action
     - name: "Cut Release Branch"
       run: |
+        ./scripts/check-release-branch.sh
         git config --global user.name 'Release Cut'
         git config --global user.email 'release@cut.com'
         git checkout -b $RELEASE_BRANCH;
@@ -40,10 +41,10 @@ jobs:
       uses: repo-sync/pull-request@v2
       with:
         github_token: ${{ secrets.PAT }}
-        source_branch: release-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}                                 # If blank, default: triggered branch
-        destination_branch: "main"                      # If blank, default: master
+        source_branch: release-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}
+        destination_branch: "main" 
         pr_title: release-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}
-        pr_body: "TODO: use short commit log"
+        pr_body: "TODO: use short commit log" # TODO: generate changelog from short git log
         # pr_label: release
 
     # Note: This increments minor version only, for now major releases will be done manually
