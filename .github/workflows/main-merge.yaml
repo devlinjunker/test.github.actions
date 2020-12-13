@@ -11,7 +11,7 @@
   # get checkout README.md
   # git commit -m "merge after release tag"
 
-name: On 'main' Merge
+name: Tag Release on Main Merge
 
 on: 
   push:
