@@ -1,4 +1,4 @@
-name: Release/Hotfix - Verify Merge PR
+name: "Main Branch: Verify Merge PR"
 
 on: 
   pull_request:
