@@ -26,8 +26,8 @@ jobs:
         echo "##[set-output name=major;]$(./git-mkver-linux next --format '{Major}')";
         echo "##[set-output name=minor;]$(./git-mkver-linux next --format '{Minor}')";
         echo "##[set-output name=patch;]$(./git-mkver-linux next --format '{Patch}')";
-        CHANGELOG=$(git log --format=%s main..HEAD | grep -i -E "^($CHANGELOG_PREFIX_LIST)")
-        echo "##[set-output name=changelog;]$(printf $CHANGELOG)";
+        CHANGELOG=$(git log --format=%s main..HEAD | grep -i -E "^($CHANGELOG_PREFIX_LIST)" | sed "s/$/\n   /")
+        echo "##[set-output name=changelog;]$(echo $CHANGELOG)";
       env:
         CHANGELOG_PREFIX_LIST: "feature|feat|fix|bugfix|bug"
 
@@ -44,8 +44,7 @@ jobs:
       env:
         RELEASE_BRANCH: release-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}
         RELEASE_VERSION: ${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}
-        LOG: |
-          ${{steps.version.outputs.changelog}}
+        LOG: ${{steps.version.outputs.changelog}}
 
     # Note: see https://github.com/repo-sync/pull-request#advanced-options for all options
     - name: Create Pull Request
