@@ -54,7 +54,7 @@ jobs:
         body: ${{ steps.version.outputs.log }}
   
     - name: Upmerge after release
-    - run: |
+      run: |
         git config --global user.name 'Release Cut';
         git config --global user.email 'release@cut.com';
         git checkout develop;
@@ -65,4 +65,4 @@ jobs:
         git commit -m "upmerge after $RELEASE";
         git push;
       env:
-        RELEASE: tag_name: v${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}
+        RELEASE: v${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}
