@@ -18,9 +18,9 @@ jobs:
       id: version
       run: |
         git checkout main;
-        echo "##[set-output name=major;]$(./git-mkver-linux next --format '{Major}')";
-        echo "##[set-output name=minor;]$(./git-mkver-linux next --format '{Minor}')";
-        echo "##[set-output name=patch;]$(./git-mkver-linux next --format '{Patch}')";
+        echo "##[set-output name=major;]$(./scripts/release/git-mkver-linux next --format '{Major}')";
+        echo "##[set-output name=minor;]$(./scripts/release/git-mkver-linux next --format '{Minor}')";
+        echo "##[set-output name=patch;]$(./scripts/release/git-mkver-linux next --format '{Patch}')";
 
 
     - name: "Generate Next Version Number"
@@ -35,7 +35,7 @@ jobs:
         git config --global user.name 'Release Cut';
         git config --global user.email 'release@cut.com';
         git checkout -b $HOTFIX_BRANCH;
-        ./scripts/update-versions.sh $HOTFIX_VERSION;
+        ./scripts/release/update-versions.sh $HOTFIX_VERSION;
         git commit -a -m "update version for $HOTFIX_BRANCH";
         git push --set-upstream origin $HOTFIX_BRANCH;
       env:
