@@ -22,10 +22,10 @@ jobs:
       run: |
         git fetch --all --tags;
         git pull --unshallow;
+        git checkout develop
         echo "##[set-output name=major;]$(./git-mkver-linux next --format '{Major}')";
         echo "##[set-output name=minor;]$(./git-mkver-linux next --format '{Minor}')";
         echo "##[set-output name=patch;]$(./git-mkver-linux next --format '{Patch}')";
-        git log --format=%s main..HEAD | egrep -i -e '^($CHANGELOG_PREFIX_LIST)';
         echo "##[set-output name=changelog;]$(echo $(git log --format=%s main..HEAD | egrep -i -e '^($CHANGELOG_PREFIX_LIST)'))";
       env:
         CHANGELOG_PREFIX_LIST: "feature|feat|fix|bugfix|bug"
