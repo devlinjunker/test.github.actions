@@ -2,6 +2,8 @@
 # - Create Tag (vX.X.X) on `main` branch
 # - Create Github Release
 # - upmerge develop from main (so develop has tag in history)
+  # git fetch --all --tags;
+  # git pull --unshallow;
   # git checkout develop
   # git pull
   # git checkout main
@@ -28,3 +30,39 @@ jobs:
       with:
         ## This is a Personal Access Token from Admin User that allows us to bypass branch protections on develop
         token: ${{ secrets.PAT }}
+
+    - name: "Get Release Info"
+      id: version
+      run: |
+        git fetch --all --tags;
+        git pull --unshallow;
+        echo "##[set-output name=major;]$(./git-mkver-linux next --format '{Major}')";
+        echo "##[set-output name=minor;]$(./git-mkver-linux next --format '{Minor}')";
+        echo "##[set-output name=patch;]$(./git-mkver-linux next --format '{Patch}')";
+        echo "##[set-output name=log;]$(git log --format=%s $(git tag | tail -n 1)..HEAD | egrep -i -e '^($CHANGELOG_PREFIX_LIST)')";
+      env:
+        CHANGELOG_PREFIX_LIST: "feature|feat|fix|bugfix|bug"
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: v${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}
+        release_name: Release ${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}
+        body: ${{ steps.version.outputs.log }}
+  
+    - name: Upmerge after release
+    - run: |
+        git config --global user.name 'Release Cut';
+        git config --global user.email 'release@cut.com';
+        git checkout develop;
+        git pull;
+        git merge main;
+        git reset README.md;
+        get checkout README.md;
+        git commit -m "upmerge after $RELEASE";
+        git push;
+      env:
+        RELEASE: tag_name: v${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}
