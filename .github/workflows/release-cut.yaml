@@ -33,9 +33,11 @@ jobs:
       env:
         CHANGELOG_PREFIX_LIST: "feature|feat|fix|bugfix|bug"
 
+    # Attempts to cut a release branch
+    #   fails if there are no `feat|feature` commits since last release
     - name: "Cut Release Branch"
       run: |
-        ./scripts/check-release-branch.sh
+        ./scripts/release-cut-check.sh
         git config --global user.name 'Release Cut'
         git config --global user.email 'release@cut.com'
         git checkout -b $RELEASE_BRANCH;
