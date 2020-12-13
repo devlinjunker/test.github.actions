@@ -35,7 +35,6 @@ jobs:
 
     - name: "Cut Release Branch"
       run: |
-        echo $LOG;
         ./scripts/check-release-branch.sh
         git config --global user.name 'Release Cut'
         git config --global user.email 'release@cut.com'
@@ -46,7 +45,6 @@ jobs:
       env:
         RELEASE_BRANCH: release-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}
         RELEASE_VERSION: ${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}
-        LOG: ${{steps.version.outputs.changelog}}
 
     # Note: see https://github.com/repo-sync/pull-request#advanced-options for all options
     - name: Create Pull Request
