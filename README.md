@@ -1,12 +1,12 @@
 ---
-Version: 0.12.0
+Version: 0.12.1
 ---
 
 # Test Github Actions
 Repository containing files to test Github Actions and add/edit `.yaml` files for seeing how actions will perform before adding them to other git repos
 
 ## TODO:
- - [x] Verify Merge Possible
+ - [x] Develop Branch Merge Verification
     - [x] PR Title matches branch name
     - [ ] PR Branch matches regexp?
  - [x] Auto Merge PR on Comment
@@ -22,6 +22,8 @@ Repository containing files to test Github Actions and add/edit `.yaml` files fo
     - add git tag (vX.X.X) to `main` on merge
     - upmerge `develop` from `main` on merge to `main`
  - [x] Hotfix Branch creation
+ - [ ] Hotfix Branch Merge Verification
+    - no `feat` or `feature` commits
 
 ## Links
  - Other Ideas: 
