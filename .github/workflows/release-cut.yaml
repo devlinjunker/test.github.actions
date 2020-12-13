@@ -23,14 +23,25 @@ jobs:
         echo "##[set-output name=minor;]$(./git-mkver-linux next --format '{Minor}')";
         echo "##[set-output name=patch;]$(./git-mkver-linux next --format '{Patch}')";
     
+    - name: Check Release Branch
+      id: branch-exists
+      run: |
+        git branch -a | grep $RELEASE_BRANCH;
+        echo "##[set-output name=exit;]$(echo $?)";
+
+    - name: Fail if Branch Exists
+      if: ${{ steps.branch-exists.exit }} != 0
+      run: |
+        echo "::error::Release Branch Already Exists";
+        exit 1;
+
     # TODO: if $RELEASE_BRANCH exists, fail action
     - name: "Cut Release Branch"
       run: |
-        git branch -a | grep $RELEASE_BRANCH;
+        
         if [ $? -eq 0 ]; then
-  echo "::error::Release Branch Already Exists";
-  exit 1;
-fi
+          
+        fi;
         git config --global user.name 'Release Cut'
         git config --global user.email 'release@cut.com'
         git checkout -b $RELEASE_BRANCH;
