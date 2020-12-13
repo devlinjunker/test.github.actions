@@ -1,5 +1,5 @@
 # Name should reflect when action occurs
-name: Develop - Verify PR Can Merge
+name: "Develop: Verify Merge PR"
 
 on: 
   pull_request:
