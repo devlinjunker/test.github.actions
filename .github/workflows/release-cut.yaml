@@ -33,7 +33,7 @@ jobs:
         RELEASE_BRANCH: release-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}
 
     - name: Fail if Branch Exists
-      if: ${{ steps.branch-exists.code }} != 0
+      if: success()
       run: |
         echo "::error::Release Branch Already Exists";
         exit 1;
