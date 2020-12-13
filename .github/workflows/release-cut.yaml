@@ -27,12 +27,12 @@ jobs:
       id: branch-exists
       run: |
         git branch -a | grep $RELEASE_BRANCH;
-        echo "##[set-output name=exit;]$(echo $?)";
+        echo "##[set-output name=code;]$(echo $?)";
       env:
         RELEASE_BRANCH: release-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}
 
     - name: Fail if Branch Exists
-      if: ${{ steps.branch-exists.exit }} != 0
+      if: ${{ steps.branch-exists.code }} != 0
       run: |
         echo "::error::Release Branch Already Exists";
         exit 1;
