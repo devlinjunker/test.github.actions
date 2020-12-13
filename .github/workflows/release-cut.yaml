@@ -26,9 +26,9 @@ jobs:
     # TODO: if $RELEASE_BRANCH exists, fail action
     - name: "Cut Release Branch"
       run: |
-        git branch -a | grep $RELEASE_BRANCH
+        git branch -a | grep $RELEASE_BRANCH;
         if [ $? -ne 0 ]; then
-          echo "::error ::Release Branch Already Exists"
+          echo "::error::Release Branch Already Exists";
           exit -1;
         fi
         git config --global user.name 'Release Cut'
