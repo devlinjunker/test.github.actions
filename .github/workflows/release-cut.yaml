@@ -14,6 +14,7 @@ jobs:
       with:
         ## This is a Personal Access Token from Admin User that allows us to bypass branch protections on develop
         token: ${{ secrets.PAT }}
+        fetch-depth: 0
 
     # Updates the repo with all history so we can get next build number and changelog
     # NOTE: Update CHANGELOG_PREFIX_LIST to configure the lines you wan to include in the changelog (body of release PR)
@@ -26,8 +27,8 @@ jobs:
         echo "##[set-output name=major;]$(./git-mkver-linux next --format '{Major}')";
         echo "##[set-output name=minor;]$(./git-mkver-linux next --format '{Minor}')";
         echo "##[set-output name=patch;]$(./git-mkver-linux next --format '{Patch}')";
-        git log --format=%s main..HEAD | egrep -i -e '^($CHANGELOG_PREFIX_LIST)';
-        echo "##[set-output name=changelog;]$(git log --format=%s main..HEAD | egrep -i -e '^($CHANGELOG_PREFIX_LIST)')";
+        git log --format=%s main..develop | egrep -i -e '^($CHANGELOG_PREFIX_LIST)';
+        echo "##[set-output name=changelog;]$(git log --format=%s main..develop | egrep -i -e '^($CHANGELOG_PREFIX_LIST)')";
       env:
         CHANGELOG_PREFIX_LIST: "feature|feat|fix|bugfix|bug"
 
