@@ -9,5 +9,7 @@ VERSION=`less README.md | head -n 3`;
 git pull;
 git merge main;
 
+git reset README.md
+
 # TODO: Resolve conflicts better (maybe https://github.com/jakub-g/git-resolve-conflict)
 git checkout README.md;
