@@ -1,5 +1,5 @@
 ---
-Version: 0.8-SNAPSHOT
+Version: 0.8.0
 ---
 
 # Test Github Actions
