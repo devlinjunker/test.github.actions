@@ -1,7 +1,4 @@
-# TODO: creates hotfix branch off of main
-# - create branch off of main with hotfix-<major>.<minor>.X version number
-
-name: "Hotfix: Cut Branch"
+name: "Hotfix-Cut"
 
 # Workflow runs when manually triggered using the UI or API
 on: workflow_dispatch

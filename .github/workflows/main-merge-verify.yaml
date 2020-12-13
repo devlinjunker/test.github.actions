@@ -1,4 +1,4 @@
-name: "Main Branch: Verify Merge PR"
+name: "Main-Verify Merge PR"
 
 on: 
   pull_request:

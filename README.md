@@ -22,7 +22,7 @@ Repository containing files to test Github Actions and add/edit `.yaml` files fo
     - add git tag (vX.X.X) to `main` on merge
     - upmerge `develop` from `main` on merge to `main`
  - [x] Hotfix Branch creation
- - [ ] Main Branch Merge Verification
+ - [x] Main Branch Merge Verification
     - must be from `hotfix-` or `release-` branch
     - must have PR title with `hotfix-` or `release`
  - [ ] Hotfix Branch Merge Verification
