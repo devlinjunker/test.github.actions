@@ -1,5 +1,6 @@
 # TODO: on merge to main from release (and patch?) branch
 # - Create Tag (vX.X.X) on `main` branch
+# - Create Github Release
 # - upmerge develop from main (so develop has tag in history)
   # git checkout develop
   # git pull
@@ -11,7 +12,7 @@
   # get checkout README.md
   # git commit -m "merge after release tag"
 
-name: Tag Release on Main Merge
+name: Release - Tag on Merge
 
 on: 
   push:

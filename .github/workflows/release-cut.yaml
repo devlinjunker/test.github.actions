@@ -1,4 +1,4 @@
-name: Cut Release Branch and PR
+name: Release - Cut Branch and PR
 
 # Workflow runs when manually triggered using the UI or API
 on: workflow_dispatch
@@ -55,7 +55,7 @@ jobs:
       env:
         MINOR_VERSION: ${{ steps.version.outputs.minor }}
 
-    - name: "Update Next Version" # in repo files
+    - name: "Update File Versions" # in repo
       run: |
         git config --global user.name 'Release Cut'
         git config --global user.email 'release@cut.com'
