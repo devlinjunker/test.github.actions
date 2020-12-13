@@ -22,7 +22,6 @@ jobs:
       id: version
       run: |
         git fetch --all --tags;
-        git pull --unshallow;
         git checkout develop
         echo "##[set-output name=major;]$(./git-mkver-linux next --format '{Major}')";
         echo "##[set-output name=minor;]$(./git-mkver-linux next --format '{Minor}')";
