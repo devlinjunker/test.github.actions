@@ -3,17 +3,20 @@ name: Release - Cut Branch and PR
 # Workflow runs when manually triggered using the UI or API
 on: workflow_dispatch
  
-# This Workflow should cut a `release-*` branch from `develop`
+# This Workflow should cut a `release-*` branch from `develop` and create a PR into `main`
 jobs:
   cut-release:
     runs-on: ubuntu-latest
 
+    # TODO: Should we create step that sets "variables" for action (main branch, release commit user)
     steps: 
     - uses: actions/checkout@v2
       with:
         ## This is a Personal Access Token from Admin User that allows us to bypass branch protections on develop
         token: ${{ secrets.PAT }}
 
+    # Updates the repo with all history so we can get next build number and changelog
+    # NOTE: Update CHANGELOG_PREFIX_LIST to configure the lines you wan to include in the changelog (body of release PR)
     - name: "Get Release Info"
       id: version
       run: |
@@ -22,6 +25,9 @@ jobs:
         echo "##[set-output name=major;]$(./git-mkver-linux next --format '{Major}')";
         echo "##[set-output name=minor;]$(./git-mkver-linux next --format '{Minor}')";
         echo "##[set-output name=patch;]$(./git-mkver-linux next --format '{Patch}')";
+        echo "##[set-output name=log;]$(git log --format=%s main..HEAD | egrep -i -e '^($CHANGELOG_PREFIX_LIST)')";
+      env:
+        CHANGELOG_PREFIX_LIST: "feature|feat|fix|bugfix|bug"
 
     - name: "Cut Release Branch"
       run: |
@@ -36,6 +42,7 @@ jobs:
         RELEASE_BRANCH: release-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}
         RELEASE_VERSION: ${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}
 
+    # Note: see https://github.com/repo-sync/pull-request#advanced-options for all options
     - name: Create Pull Request
       uses: repo-sync/pull-request@v2
       with:
@@ -43,7 +50,7 @@ jobs:
         source_branch: release-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}
         destination_branch: "main" 
         pr_title: release-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}
-        pr_body: "TODO: use short commit log" # TODO: generate changelog from short git log
+        pr_body: ${{ steps.version.outputs.log }}
         # pr_label: release
 
     # Note: This increments minor version only, for now major releases will be done manually
