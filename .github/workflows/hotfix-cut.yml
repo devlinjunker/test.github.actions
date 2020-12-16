@@ -38,8 +38,8 @@ jobs:
         NEW=`echo "
         $RELEASE_NAME
         -----------------
-        $CHANGELOG
-        
+        - 
+
         "`;
         echo "$NEW$([ -f CHANGELOG.md ] && less CHANGELOG.md)" > CHANGELOG.md;
         git commit -a -m "update version for $HOTFIX_BRANCH";
