@@ -22,7 +22,6 @@ jobs:
         echo "##[set-output name=minor;]$(./scripts/release/git-mkver-linux next --format '{Minor}')";
         echo "##[set-output name=patch;]$(./scripts/release/git-mkver-linux next --format '{Patch}')";
 
-
     - name: "Generate Next Version Number"
       id: next_version
       run: |
@@ -36,8 +35,31 @@ jobs:
         git config --global user.email 'release@cut.com';
         git checkout -b $HOTFIX_BRANCH;
         ./scripts/release/update-versions.sh $HOTFIX_VERSION;
+        NEW=`echo "
+        $RELEASE_NAME
+        -----------------
+        $CHANGELOG
+        "`;
+        echo "$NEW$([ -f CHANGELOG.md ] && less CHANGELOG.md)" > CHANGELOG.md;
         git commit -a -m "update version for $HOTFIX_BRANCH";
         git push --set-upstream origin $HOTFIX_BRANCH;
       env:
         HOTFIX_BRANCH: hotfix-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.next_version.outputs.patch }}
         HOTFIX_VERSION: ${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.next_version.outputs.patch }}
+        RELEASE_NAME: release-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}
+        CHANGELOG: ${{ steps.version.outputs.changelog }}
+
+    - name: Create Pull Request
+      uses: repo-sync/pull-request@v2
+      with:
+        github_token: ${{ secrets.PAT }}
+        source_branch: hotfix-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}
+        destination_branch: "main" 
+        pr_title: hotfix-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}
+        pr_body: "
+        # TODO: 
+        - [ ] Update CHANGELOG.mc
+        "
+        
+
+      # pr_label: release
