@@ -67,7 +67,9 @@ jobs:
       run: |
         git config --global user.name 'Release Cut';
         git config --global user.email 'release@cut.com';
-        echo "$RELEASE_NAME\n------------------\n$CHANGELOG\n\n$([ -f CHANGELOG.md ] && less CHANGELOG.md)" > CHANGELOG.md;
+        NEW=echo "$RELEASE_NAME\n-----------------n$CHANGELOG\n\n";
+        NEW="${NEW//$'\n'/'%0A'}"
+        echo "$NEW$([ -f CHANGELOG.md ] && less CHANGELOG.md)" > CHANGELOG.md;
         git add CHANGELOG.md;
         ./scripts/release/release-prep-upmerge.sh
         git commit -m "upmerge after $RELEASE";
