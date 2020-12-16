@@ -50,8 +50,8 @@ jobs:
         git commit -m "upmerge after $RELEASE";
         git push;
       env:
-        RELEASE_NAME: release-${{ needs.create-release-tag.outputs.major }}.${{ needs.create-release-tag.outputs.minor }}.${{ needs.create-release-tag.outputs.patch }}
-        CHANGELOG: ${{ needs.create-release-tag.outputs.changelog }}
+        RELEASE_NAME: release-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}
+        CHANGELOG: ${{ steps.version.outputs.changelog }}
 
     - name: Create Github Release
       id: create_release
