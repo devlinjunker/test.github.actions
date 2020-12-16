@@ -58,8 +58,7 @@ jobs:
         pr_title: hotfix-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.next_version.outputs.patch }}
         pr_allow_empty: true
         pr_body: |
-        # TODO: |
-        - [ ] Update CHANGELOG.md |
-        |
+        # TODO:
+        - [ ] Update CHANGELOG.md
         
       # pr_label: release
