@@ -26,7 +26,7 @@ Repository containing files to test Github Actions and add/edit `.yaml` files fo
     - must be from `hotfix-` or `release-` branch
     - must have PR title with `hotfix-` or `release`
  - [x] Test Major Release Cut
- - [ ] Generate Changelog
+ - [..] Generate Changelog
       - Either:
       - in release cut, but whatabout hotfixes?
       - in merge to main, but this will trigger infinite loop with PAT
