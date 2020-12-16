@@ -40,6 +40,7 @@ jobs:
       env:
         CHANGELOG_PREFIX_LIST: "feature|feat|fix|bugfix|bug"
 
+    #
     # This doesn't work with PAT, because it will trigger the workflow repeatedly
     #   TODO: Look into action that toggles branch protections
     #     Then we can wrap this and the changes in `release-cut` in enable/disable and use ${{ secrets. GITHUB_TOKEN }}
