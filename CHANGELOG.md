@@ -1,4 +1,8 @@
 
+release-1.9.0
+-----------------
+- fix: test
+ - feature: prepend empty line before new contents
 release-1.8.0
 -----------------
 - feature: test
