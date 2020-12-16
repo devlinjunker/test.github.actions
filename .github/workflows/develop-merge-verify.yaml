@@ -6,7 +6,6 @@ on:
     types: [opened, edited, synchronize, reopened]
     branches:
       - develop
-      # also on hotfix-X.X.X branches?
 
 jobs:
   # Verify that the PR Title matches expected Format
