@@ -64,7 +64,6 @@ jobs:
         body: ${{ steps.version.outputs.changelog }}
         commitish: main
   
-  
   upmerge-after-release:      
     strategy:
       max-parallel: 1
