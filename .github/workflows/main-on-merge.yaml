@@ -40,22 +40,26 @@ jobs:
       env:
         CHANGELOG_PREFIX_LIST: "feature|feat|fix|bugfix|bug"
 
-    - name: Update ChangeLog
-      run: |
-        git config --global user.name 'Release Cut';
-        git config --global user.email 'release@cut.com';
-        NEW=`echo "
-        $RELEASE_NAME
-        -----------------
-        $CHANGELOG
-        "`;
-        echo "$NEW$([ -f CHANGELOG.md ] && less CHANGELOG.md)" > CHANGELOG.md;
-        git add CHANGELOG.md;
-        git commit -m "upmerge after $RELEASE";
-        git push;
-      env:
-        RELEASE_NAME: release-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}
-        CHANGELOG: ${{ steps.version.outputs.changelog }}
+    # This doesn't work with PAT, because it will trigger the workflow repeatedly
+    #   TODO: Look into action that toggles branch protections
+    #     Then we can wrap this and the changes in `release-cut` in enable/disable and use ${{ secrets. GITHUB_TOKEN }}
+    # 
+    # - name: Update ChangeLog
+    #   run: |
+    #     git config --global user.name 'Release Cut';
+    #     git config --global user.email 'release@cut.com';
+    #     NEW=`echo "
+    #     $RELEASE_NAME
+    #     -----------------
+    #     $CHANGELOG
+    #     "`;
+    #     echo "$NEW$([ -f CHANGELOG.md ] && less CHANGELOG.md)" > CHANGELOG.md;
+    #     git add CHANGELOG.md;
+    #     git commit -m "upmerge after $RELEASE";
+    #     git push;
+    #   env:
+    #     RELEASE_NAME: release-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}
+    #     CHANGELOG: ${{ steps.version.outputs.changelog }}
 
     - name: Create Github Release
       id: create_release
