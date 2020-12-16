@@ -61,7 +61,7 @@ jobs:
       with:
         ## This is a Personal Access Token from Admin User that allows us to bypass branch protections on develop
         token: ${{ secrets.PAT }}
-        fetch-depth: 0  
+        fetch-depth: 0
         
     - name: Upmerge develop After Release
       run: |
