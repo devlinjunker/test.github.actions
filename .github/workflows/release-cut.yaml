@@ -41,6 +41,8 @@ jobs:
         $RELEASE_NAME
         -----------------
         $CHANGELOG
+
+        
         "`;
         echo "$NEW$([ -f CHANGELOG.md ] && less CHANGELOG.md)" > CHANGELOG.md;
         git add CHANGELOG.md;
