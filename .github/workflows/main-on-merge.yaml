@@ -7,7 +7,7 @@ on:
 
 jobs:
   create-release-tag:
-    strategy: 
+    strategy:
       max-parallel: 1
     runs-on: ubuntu-latest
     outputs:
