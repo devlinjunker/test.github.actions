@@ -43,7 +43,7 @@ jobs:
       with:
         tag_name: v${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}
         release_name: release-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}
-        body: ${{ steps.version.outputs.changelog }}
+        body: '${{ steps.version.outputs.changelog }}'
   
   upmerge-after-release:      
     strategy: 
