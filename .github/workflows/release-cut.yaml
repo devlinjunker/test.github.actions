@@ -44,7 +44,7 @@ jobs:
         "`;
         echo "$NEW$([ -f CHANGELOG.md ] && less CHANGELOG.md)" > CHANGELOG.md;
         git add CHANGELOG.md;
-        git commit -m "update CHANGELOG before $RELEASE";
+        git commit -m "update CHANGELOG before $RELEASE_NAME";
         git push;
       env:
         RELEASE_NAME: release-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}

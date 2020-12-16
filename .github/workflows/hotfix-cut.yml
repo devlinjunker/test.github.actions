@@ -56,9 +56,10 @@ jobs:
         source_branch: hotfix-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}
         destination_branch: "main" 
         pr_title: hotfix-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}
+        pr_allow_empty: true
         pr_body: "
         # TODO: 
-        - [ ] Update CHANGELOG.mc
+        - [ ] Update CHANGELOG.md
         "
         
 
