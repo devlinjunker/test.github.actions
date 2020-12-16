@@ -28,6 +28,7 @@ Repository containing files to test Github Actions and add/edit `.yaml` files fo
  - [ ] Hotfix Branch Merge Verification
     - no `feat` or `feature` commits
  - [ ] Resolve Conflicts Better in upmerge `main` -> `develop` after release
+ - [ ] Test Major Release Cut
 
 
 ## Notes
