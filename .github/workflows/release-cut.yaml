@@ -43,7 +43,8 @@ jobs:
         -----------------
         $CHANGELOG
         "`;
-        echo "$([ -f CHANGELOG.md ] && less CHANGELOG.md)" > CHANGELOG.md;
+        echo "
+        $([ -f CHANGELOG.md ] && less CHANGELOG.md)" > CHANGELOG.md;
         echo "$NEW$([ -f CHANGELOG.md ] && less CHANGELOG.md)" > CHANGELOG.md;
         git add CHANGELOG.md;
         git commit -m "update CHANGELOG before $RELEASE_NAME";
