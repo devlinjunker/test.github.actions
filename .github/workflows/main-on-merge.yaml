@@ -7,7 +7,7 @@ on:
 
 jobs:
   create-release-tag:
-    strategy: 
+    strategy:
       max-parallel: 1
     runs-on: ubuntu-latest
     outputs:
@@ -65,11 +65,10 @@ jobs:
         
     - name: Upmerge develop After Release
       run: |
+        git checkout main;
         git config --global user.name 'Release Cut';
         git config --global user.email 'release@cut.com';
-        NEW=`echo "$RELEASE_NAME\n-----------------n$CHANGELOG\n\n"`;
-        NEW="${NEW//'\n'/'%0A'}"
-        echo "$NEW$([ -f CHANGELOG.md ] && less CHANGELOG.md)" > CHANGELOG.md;
+        echo "$RELEASE_NAME%0A-----------------%0A$CHANGELOG%0A%0A$([ -f CHANGELOG.md ] && less CHANGELOG.md)" > CHANGELOG.md;
         git add CHANGELOG.md;
         ./scripts/release/release-prep-upmerge.sh
         git commit -m "upmerge after $RELEASE";
