@@ -33,13 +33,28 @@ jobs:
       env:
         CHANGELOG_PREFIX_LIST: "feature|feat|fix|bugfix|bug"
 
+    - name: Update ChangeLog
+      run: |
+        git config --global user.name 'Release Cut';
+        git config --global user.email 'release@cut.com';
+        NEW=`echo "
+        $RELEASE_NAME
+        -----------------
+        $CHANGELOG
+        "`;
+        echo "$NEW$([ -f CHANGELOG.md ] && less CHANGELOG.md)" > CHANGELOG.md;
+        git add CHANGELOG.md;
+        git commit -m "update CHANGELOG before $RELEASE";
+        git push;
+      env:
+        RELEASE_NAME: release-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}
+        CHANGELOG: ${{ steps.version.outputs.changelog }}
+
     # Attempts to cut a release branch
     #   fails if there are no `feat|feature` commits since last release
     - name: "Cut Release Branch"
       run: |
         ./scripts/release/release-cut-check.sh
-        git config --global user.name 'Release Cut'
-        git config --global user.email 'release@cut.com'
         git checkout -b $RELEASE_BRANCH;
         ./scripts/release/update-versions.sh $RELEASE_VERSION;
         git commit -a -m "update version for $RELEASE_BRANCH";
