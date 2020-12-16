@@ -56,7 +56,7 @@ jobs:
         source_branch: release-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}
         destination_branch: "main" 
         pr_title: release-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}
-        pr_body: '${{ steps.version.outputs.changelog }}'
+        pr_body: ${{ steps.version.outputs.changelog }}
         # pr_label: release
 
     # Note: This increments minor version only, for now major releases will be done manually

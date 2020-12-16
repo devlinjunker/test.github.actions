@@ -10,6 +10,11 @@ jobs:
     strategy: 
       max-parallel: 1
     runs-on: ubuntu-latest
+    outputs:
+      major: ${{ steps.version.outputs.major }}
+      minor: ${{ steps.version.outputs.minor }}
+      patch: ${{ steps.version.outputs.patch }}
+      changelog: ${{ steps.version.outputs.changelog }}
 
     steps: 
     - uses: actions/checkout@v2
@@ -43,7 +48,7 @@ jobs:
       with:
         tag_name: v${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}
         release_name: release-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}
-        body: '${{ steps.version.outputs.changelog }}'
+        body: ${{ steps.version.outputs.changelog }}
   
   upmerge-after-release:      
     strategy: 
@@ -65,4 +70,4 @@ jobs:
         git commit -m "upmerge after $RELEASE";
         git push;
       env:
-        RELEASE: v${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}
+        RELEASE: v${{ needs.create-release-tag.outputs.major }}.${{ needs.create-release-tag.outputs.minor }}.${{ needs.create-release-tag.outputs.patch }}
