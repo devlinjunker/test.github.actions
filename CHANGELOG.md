@@ -1,4 +1,10 @@
 
+release-1.9.0
+-----------------
+- fix: new line in echo
+ - fix: test
+ - feature: prepend empty line before new contents
+
 release-1.8.0
 -----------------
 - feature: test
