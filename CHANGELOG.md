@@ -1,4 +1,8 @@
 
+release-1.6.0
+-----------------
+- feat: fix
+
 release-1.5.4
 -----------------
 - fix: try to use |
