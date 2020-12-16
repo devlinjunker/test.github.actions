@@ -1,4 +1,7 @@
 
+release-1.8.0
+-----------------
+- feature: test
 release-1.7.0
 -----------------
 - feat:fix
