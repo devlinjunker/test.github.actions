@@ -42,6 +42,8 @@ jobs:
 
     - name: Update ChangeLog
       run: |
+        git config --global user.name 'Release Cut';
+        git config --global user.email 'release@cut.com';
         NEW=`echo "$RELEASE_NAME\n-----------------\n$CHANGELOG\n\n"`;
         echo "$NEW$([ -f CHANGELOG.md ] && less CHANGELOG.md)" > CHANGELOG.md;
         git add CHANGELOG.md;
@@ -61,6 +63,7 @@ jobs:
         release_name: release-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}
         body: ${{ steps.version.outputs.changelog }}
         commitish: main
+  
   
   upmerge-after-release:      
     strategy:
