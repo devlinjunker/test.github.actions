@@ -1,5 +1,5 @@
 ---
-Version: 1.2.0
+Version: 1.4.0
 ---
 
 # Test Github Actions
@@ -21,12 +21,16 @@ Repository containing files to test Github Actions and add/edit `.yaml` files fo
  - [x] Release Merging
     - add git tag (vX.X.X) to `main` on merge
     - upmerge `develop` from `main` on merge to `main`
-    - update CHANGELOG files
  - [x] Hotfix Branch creation
  - [x] Main Branch Merge Verification
     - must be from `hotfix-` or `release-` branch
     - must have PR title with `hotfix-` or `release`
  - [x] Test Major Release Cut
+ - [ ] Generate Changelog
+   Either:
+      - in release cut, but whatabout hotfixes?
+      - in merge to main, but this will trigger infinite loop with PAT
+         - need to enable/disable branch protections if we don't want to use this
  - [ ] Hotfix Branch Merge Verification
     - no `feat` or `feature` commits
  - [ ] Resolve Conflicts Better in upmerge `main` -> `develop` after release
