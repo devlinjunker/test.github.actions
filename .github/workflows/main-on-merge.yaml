@@ -65,9 +65,10 @@ jobs:
         
     - name: Upmerge develop After Release
       run: |
+        git checkout main;
         git config --global user.name 'Release Cut';
         git config --global user.email 'release@cut.com';
-        NEW=`echo "$RELEASE_NAME\n-----------------n$CHANGELOG\n\n"`;
+        NEW=`echo "$RELEASE_NAME\n-----------------\n$CHANGELOG\n\n"`;
         NEW="${NEW//'\n'/'%0A'}"
         echo "$NEW$([ -f CHANGELOG.md ] && less CHANGELOG.md)" > CHANGELOG.md;
         git add CHANGELOG.md;
