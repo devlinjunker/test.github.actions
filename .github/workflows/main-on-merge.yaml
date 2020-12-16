@@ -7,7 +7,7 @@ on:
 
 jobs:
   create-release-tag:
-    strategy: 
+    strategy:
       max-parallel: 1
     runs-on: ubuntu-latest
     outputs:
@@ -40,6 +40,19 @@ jobs:
       env:
         CHANGELOG_PREFIX_LIST: "feature|feat|fix|bugfix|bug"
 
+    - name: Update ChangeLog
+      run: |
+        git config --global user.name 'Release Cut';
+        git config --global user.email 'release@cut.com';
+        NEW=`echo "$RELEASE_NAME\n-----------------\n$CHANGELOG\n\n"`;
+        echo "$NEW$([ -f CHANGELOG.md ] && less CHANGELOG.md)" > CHANGELOG.md;
+        git add CHANGELOG.md;
+        git commit -m "upmerge after $RELEASE";
+        git push;
+      env:
+        RELEASE_NAME: release-${{ needs.create-release-tag.outputs.major }}.${{ needs.create-release-tag.outputs.minor }}.${{ needs.create-release-tag.outputs.patch }}
+        CHANGELOG: ${{ needs.create-release-tag.outputs.changelog }}
+
     - name: Create Github Release
       id: create_release
       uses: actions/create-release@v1
@@ -49,6 +62,8 @@ jobs:
         tag_name: v${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}
         release_name: release-${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}
         body: ${{ steps.version.outputs.changelog }}
+        commitish: main
+  
   
   upmerge-after-release:      
     strategy:
@@ -65,16 +80,11 @@ jobs:
         
     - name: Upmerge develop After Release
       run: |
+        git checkout main;
         git config --global user.name 'Release Cut';
         git config --global user.email 'release@cut.com';
-        NEW=`echo "$RELEASE_NAME\n-----------------n$CHANGELOG\n\n"`;
-        NEW="${NEW//'\n'/'%0A'}"
-        echo "$NEW$([ -f CHANGELOG.md ] && less CHANGELOG.md)" > CHANGELOG.md;
-        git add CHANGELOG.md;
         ./scripts/release/release-prep-upmerge.sh
         git commit -m "upmerge after $RELEASE";
         git push;
       env:
-        RELEASE_NAME: release-${{ needs.create-release-tag.outputs.major }}.${{ needs.create-release-tag.outputs.minor }}.${{ needs.create-release-tag.outputs.patch }}
         RELEASE: v${{ needs.create-release-tag.outputs.major }}.${{ needs.create-release-tag.outputs.minor }}.${{ needs.create-release-tag.outputs.patch }}
-        CHANGELOG: ${{ needs.create-release-tag.outputs.changelog }}
