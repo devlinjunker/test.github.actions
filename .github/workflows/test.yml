@@ -20,4 +20,4 @@ jobs:
       - uses: actions/checkout@v2
 
       # Runs a single command using the runners shell
-      - uses: devlinjunker/practice.github.action@v0.1.0
+      - uses: devlinjunker/practice.github.action@v0.1.1
